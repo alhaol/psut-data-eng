@@ -64,3 +64,5 @@ This demo includes Elasticsearch and Kibana as well as setting up the index patt
 
 * Start: `$ docker-compose up`
 * Remove: `$ docker-compose down -v`
+
+Do this after that 
