@@ -1,0 +1,36 @@
+version: '3'
+services:
+  zookeeper:
+    hostname: zookeeper
+    container_name: zookeeper_dataenv
+    image: 'bitnami/zookeeper:latest'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  nifi:
+    image: mkobit/nifi
+    container_name: nifi_dataenv
+    ports:
+      - 8080:8080
+      - 8081:8081
+    environment:
+      - NIFI_WEB_HTTP_PORT=8080
+      - NIFI_ZK_CONNECT_STRING=zookeeper:2181
+ 
+  minimal-jupyter-notebook:
+    image: jupyter/minimal-notebook:latest
+    environment:
+      - GRANT_SUDO=yes
+ 
+    ports:
+      - 8888:8888
+  db:
+    image: 'postgres:9.6.3-alpine'
+    container_name: psql_dataenv
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: psql_data_environment
+      POSTGRES_USER: psql_user
+      POSTGRES_PASSWORD: psql
+      PGDATA: /opt/psql_data
+    restart: "no"
