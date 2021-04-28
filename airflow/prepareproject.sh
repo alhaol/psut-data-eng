@@ -8,10 +8,10 @@ docker-compose up airflow-init
 
 docker-compose up
 
+# Access the container  
 docker exec ID_webserver airflow version 
 
-curl -X GET "http://localhost:8080/api/va/dags"
-
-AIRFLOW_API_AUTH_BACKEND: 'airflow.api.auth.backend.basic_auth'
+#curl -X GET "http://localhost:8080/api/va/dags"
+#AIRFLOW_API_AUTH_BACKEND: 'airflow.api.auth.backend.basic_auth'
 
 docker-compose up && docker-compose down 
