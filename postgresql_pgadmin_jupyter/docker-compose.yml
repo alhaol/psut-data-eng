@@ -1,0 +1,57 @@
+version: "3.4"
+
+services:
+    pgAdmin:
+        restart: always
+        image: dpage/pgadmin4
+        container_name: "dev-pgadmin"
+        ports:
+            - "8000:80"
+        environment:
+            PGADMIN_DEFAULT_EMAIL: 1234@admin.com
+            PGADMIN_DEFAULT_PASSWORD: 1234
+        volumes:
+            - ./pgadmin:/var/lib/pgadmin
+        networks:
+            - localnet
+          
+    postgres:
+        restart: always
+        image: postgres
+        container_name: "dev-postgres"
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_USER: me
+            POSTGRES_PASSWORD: 1234
+            POSTGRES_DB: testDB
+        volumes:
+            - ./pgvol:/var/lib/postgresql/data
+        networks:
+            - localnet
+          
+
+    datascience-notebook:
+        image:  jupyter/minimal-notebook #datascience-notebook
+        #ontainer_name:  "ds-jupyter"
+        volumes:
+            - ./notebooks:/home/jovyan/work
+                
+        environment:
+            JUPYTER_ENABLE_LAB: "yes"
+            JUPYTER_TOKEN : "psut2021"
+            
+        ports:
+            - "8888:8888"
+        
+        container_name:   ds-jupyter
+        
+        links:
+            - postgres
+        networks:
+            - localnet
+
+
+networks:
+    localnet:
+        attachable: true
