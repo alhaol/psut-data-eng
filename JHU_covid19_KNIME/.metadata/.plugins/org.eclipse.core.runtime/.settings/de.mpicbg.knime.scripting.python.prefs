@@ -1,0 +1,4 @@
+eclipse.preferences.version=1
+python.3.exec=D\:\\Anaconda\\_conda.exe
+python.plot.template.resources=("https\://raw.githubusercontent.com/knime-mpicbg/scripting-templates/master/knime-scripting-templates/Python/figure-templates.txt",false)
+python.template.resources=("https\://raw.githubusercontent.com/knime-mpicbg/scripting-templates/master/knime-scripting-templates/Python/script-templates.txt",false)

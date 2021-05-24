@@ -1,0 +1,2176 @@
+########################################################################################
+# name: Calculate vector combinations
+# author: Martin Stoeter
+# category: calculators
+
+Calculates all combinations of unique values of selected column. Useful for generating a table for iteration of XY-plot (e.g. A,B,C will be A vs B, A vs C, B vs C)
+- unique_combinations: see above
+- all_combinations: also A vs A, B vs B, C vs C
+- combiSize: A, B, C, D; combiSize = 3 will be ABC, ABD, ACD, BCD (maximum of combiSize = 4 for all_combinations)
+- pairwise_with_second_column: all combinations of unique values of two columns (e.g. A, B, C and D, E, F will be A vs D, A vs E, ..., C vs F)
+######
+<rgg>
+
+<!--1. Title and short description -->
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+#1.0 Parameter selection
+<group>
+# 1) select the column for combination
+<hbox>
+combiColumn = <combobox items="$$$ALL_ATTRIBUTES$$$" label="Column for combinations:" default-value=""/>
+combiSize = <textfield label="Fold combination:" data-type="text" default-value="2" size="10"/>
+</hbox>
+
+# 2) select type of combination
+<hbox>
+combiType = <combobox label="Type of combination" items="unique_combinations,all_combinations,pairwise_with_second_column"/>
+combiColumn2 = <combobox items="-NOT SELECTED-,$$$ALL_ATTRIBUTES$$$" label="Second column for pairwise combinations:" default-value=""/>
+</hbox>
+</group>
+
+<![CDATA[
+
+#2.0 R code
+#2.1 load libraries
+#2.2.1 manage RGG to R: define as numbers
+combiSize <- as.numeric(combiSize)
+uniqueCombiColumn <- as.character(unique(kIn[, combiColumn]))
+#2.2.2 manage RGG to R: set values to default and check values
+if (is.na(combiSize) || (combiSize < 1)) combiSize <- 1
+if ((combiType == "unique_combinations") && (combiSize > length(uniqueCombiColumn))) combiSize <- length(uniqueCombiColumn) #prevent too many combinations
+
+#2.3. calculate
+if ((combiType == "unique_combinations")) {
+	rOut <- as.data.frame(t(combn(uniqueCombiColumn, combiSize)))
+	names(rOut) <- paste(combiColumn, names(rOut), sep="_")
+	}
+if ((combiType == "all_combinations")) {
+	if (combiSize == 1) rOut <- expand.grid(uniqueCombiColumn)
+	if (combiSize == 2) rOut <- expand.grid(uniqueCombiColumn, uniqueCombiColumn)
+	if (combiSize == 3) rOut <- expand.grid(uniqueCombiColumn, uniqueCombiColumn, uniqueCombiColumn)
+	if (combiSize >= 4) rOut <- expand.grid(uniqueCombiColumn, uniqueCombiColumn, uniqueCombiColumn, uniqueCombiColumn)
+	names(rOut) <- paste(combiColumn, names(rOut), sep="_")
+	}
+if ((combiType == "pairwise_with_second_column")) {
+	rOut <- expand.grid(uniqueCombiColumn, unique(kIn[, combiColumn2]))
+	names(rOut) <- c(combiColumn, combiColumn2)
+	}
+]]>
+</rgg>
+########################################################################################
+# name: Robust linear scaling (Percentile normalization)
+# author: Marc Bickle
+# category: normalization
+
+Normalizes using a projection of the cell based data between 0 and 1 based on the 1st percentile and the 99th percentile [1]
+
+[1] http://www.ncbi.nlm.nih.gov/books/NBK126174/#hcsimage.4_Normalization_of_HCS_data
+
+######
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+# Parameter selection
+<group>
+selReadouts = c(<panellistbox label="Parameters to normalize" items="$$$NUM_ATTRIBUTES$$$" span="full"/>)
+
+Group = <combobox label="Group" items="$$$STR_ATTRIBUTES$$$" />;
+
+Treatment = <combobox label="Treatment" items="$$$STR_ATTRIBUTES$$$" />;
+
+<vector label="Negative control" var="negCtrls" size = "1" default-value="DMSO" vector-type="character"/>
+
+
+</group>
+
+<![CDATA[
+
+# calculate
+platelist<-unique(kIn[,Group])
+
+Norm <- function(y) ((y-controlLow)/controlHigh)
+final<-NULL
+
+reference <- negCtrls
+if(!reference %in% kIn[,Treatment]) stop("Please change script to a valid reference string")
+
+for(i in 1:length(platelist)){
+	data<-kIn[which(kIn[,Group] == platelist[i]),]
+	controlPop<-data[which(data[,Treatment] == negCtrls),]
+	for(j in 1:length(selReadouts)){
+		controlLow <- as.numeric(quantile(controlPop[,selReadouts[j]], probs= 0.01, type = 4))
+		controlHigh <- as.numeric(quantile(controlPop[,selReadouts[j]], probs= 0.99, type = 4))
+		res<-apply(as.array(data[,selReadouts[j]]), 1, Norm)
+		resframe<-data.frame(res)
+		names(resframe)<-paste(selReadouts[j], "norm", sep ="_")
+		data<-cbind(data, resframe)
+	}
+	final<-rbind(final,data)
+}
+
+rOut <- final;
+
+]]>
+</rgg>
+
+
+########################################################################################
+# name: Levene's test of equal variance
+# author: Marc Bickle
+# category: statistical hypothesis tests
+
+Performs the Levene's test of homoscedasticity for two groups of a population. 
+1) define the parameters to be tested
+2) define the population column with the groups
+3) choose how to compute the center of each population. Median is more robust.
+######
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="Levene's test for equal variance (homoscedasticity)" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">Performs Levene's test of equal variance.</labelarea>
+
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+# Parameter selection
+
+<group>
+selReadouts = c(<panellistbox label="Parameters to normalize" items="$$$NUM_ATTRIBUTES$$$" span="full"/>)
+
+Group = <combobox label="Group" items="$$$STR_ATTRIBUTES$$$" />;
+
+Centering = <combobox label="Centering" items="mean, median" span="full"/>;
+
+</group>
+
+<![CDATA[
+
+library(car)
+
+final<-NULL
+
+# calculate
+kIn[,Group]<-factor(kIn[,Group])
+
+for(j in 1:length(selReadouts)){
+	test_result <- leveneTest(kIn[,selReadouts[j]] ~ kIn[,Group], data = kIn, center = Centering)
+	paramName <- data.frame(selReadouts[j])
+	names(paramName) <- "Parameter"
+	data<-cbind(test_result[1,], paramName)
+	final<-rbind(final,data)
+	}
+
+rOut <- final;
+
+]]>
+</rgg>
+
+########################################################################################
+# name: KS-test OR unpaired Wilcoxon rank test (nonparametric tests)
+# author: Marc Bickle, Antje Janosch
+# category: statistical hypothesis tests
+
+Calculates the likelihood that two non-normal populations are drawn from the same distribution.
+Choose your readouts of interest and the column providing group information. The test will be performed for each readout and each combination of possible values of the group column.
+Choose whether you want to do a 
+Kolmogorov-Smirnov test or a unpaired Wilcoxon rank test (Mann-Whitney U test).
+######
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="Nonparametric tests of the equality of continuous probability distributions" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">Calculates the likelihood that two non-normal populations are drawn from the same distribution.
+Choose your readouts of interest and the column providing group information. The test will be performed for each readout and each combination of possible values of the group column.
+Choose whether you want to do a 
+Kolmogorov-Smirnov test or a unpaired Wilcoxon rank test (Mann-Whitney U test).</labelarea>
+
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+# Parameter selection
+<group>
+test = <combobox label="Test" items="kolmogorov-smirnof, wilcoxon rank" />;
+
+selReadouts = c(<panellistbox label="Parameters to normalize" items="$$$NUM_ATTRIBUTES$$$" span="full"/>)
+
+group = <combobox label="Group" items="$$$STR_ATTRIBUTES$$$" />;
+
+</group>
+
+<![CDATA[
+# R code
+
+final<-NULL
+
+# calculate
+groupValues <- unique(kIn[,group])
+combinations <- expand.grid(selReadouts, groupValues, groupValues)
+names(combinations) <- c("readout", "group1", "group2")
+
+# remove groups compared to itself (A vs A)
+combinations <- combinations[combinations$group1 != combinations$group2,]
+
+# remove duplicates (A vs B and B vs A)
+sortedGroups <- t(apply(combinations[,c("group1","group2")], 1, sort))
+combinations$g1 <- as.vector(sortedGroups[,1])
+combinations$g2 <- as.vector(sortedGroups[,2])
+combinations <- combinations[!duplicated(combinations[,c("readout", "g1", "g2")]),]
+
+ret <- apply(combinations, 1, function(groups) {
+	group1 <- groups["group1"]
+	group2 <- groups["group2"]
+	readout <- groups["readout"]
+	data1 <- kIn[kIn[,group] == group1,readout]
+	data2 <- kIn[kIn[,group] == group2,readout]
+	if(test == "kolmogorov-smirnof") testResult <- ks.test(data1, data2)
+	if(test == "wilcoxon rank") testResult <- wilcox.test(data1,data2, paired = FALSE)
+	data.frame(parameter = readout, group1 = group1, group2 = group2, distance = testResult$statistic, p_value = testResult$p.value, n1 = length(data1), n2 = length(data2), test = test)
+})
+
+rOut <- data.frame(do.call("rbind", ret))
+
+]]>
+</rgg>
+
+
+########################################################################################
+# name: Get gene info from NCBI
+# author: Martin Stoeter
+# category: bioinformatics
+# preview: 
+
+Gets the gene name, symbol, NewlocusID, CurrentRecord, LastUpdate, locusID, and species from NCBI data base
+
+- define column with gene IDs (all unique gene IDs will be queried)
+- define batch size for query (larger queries often give time-out error)
+
+Info from 'NCBI2R' package:
+	Warning:
+	These functions use NCBI's eutils, and come with the same user requirements - if performing many queries,
+	you must run the scripts during certain hours when the NCBI servers are not in high demand. 
+	Please see the package website for more details: http://NCBI2R.wordpress.com
+	Violation of the terms described there, and the terms on the eutils website may result in losing access 
+	to NCBI for your group. 
+
+Output: table from NCBI
+
+NOTE: requires R-library NCBI2R
+######
+
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+#1.0 Parameter selection
+
+<group>
+# 1) select the column for gene IDs
+
+geneIDcolumn = <combobox items="$$$NUM_ATTRIBUTES$$$" label="Gene ID"/>
+
+
+# 2) define batch size
+batchSize = <textfield label="Batch size:" data-type="text" default-value= "10" size="10"/>
+
+
+</group>
+
+<![CDATA[
+
+#2.1 load libraries
+library(NCBI2R)
+
+#2.2.1 manage RGG to R: define as numbers
+batchSize <- as.numeric(batchSize)
+if(is.na(batchSize) || (batchSize < 1)) batchSize <- 10  #default
+
+#2.2.2 manage RGG to R: set values to default and check values
+##geneIDs <- kIn[which(!is.na(kIn[,geneIDcolumn])),geneIDcolumn]
+geneIDs <- as.numeric(levels(factor(kIn[,geneIDcolumn])))   ##removes NA, groups same geneIDs, converts to number (here, still could be a double!)
+
+#2.3 calculate
+batchSize <- 10  # with larger batchs as query time-out ans errors were experienced 
+geneIDbatch <- split(geneIDs,1:ceiling(length(geneIDs)/10))  # make list of batch vectors for NCBI query
+ncbiTable <- NULL
+for (i in 1:length(geneIDbatch)) { #do per batch
+	ncbiTable <- rbind(ncbiTable, GetGeneNames(geneIDbatch[[i]]))
+	}
+
+rOut <- ncbiTable
+
+]]>
+
+</rgg>
+#######################################################################################
+# name: Calculate percent responders (2:1, for ArrayScan cell data)
+# author: Martin Stoeter
+# category: calculators
+# preview: 
+
+Calculates percent "HIGH" and "LOW" similarly as ArrayScan BioApplications. Using an upper and lower threshold value objects/cells will be classified as above or below these thresholds and percentages of all objects within a well will be calculated. This will be done for all wells and all parameters (use loop for multiple plates).
+
+THIS SNIPPET EXPECTS TWO TABLES: OBJECT/CELL DATA and A TABLE WITH THRESHOLDS PER PARAMETER:
+Top input (object/cell data):
+- select columns for row and column information
+Bottom input (parameter-threshold table):
+- select columns that contain parameter names 
+- select columns that contain upper and lower thresholds
+
+Hint: generate bottom table by aggregation of reference data (e.g. negative control) as mean/median and sd of each parameter, use math node to calculate upper and lower threshold from these values (e.g. mean +/- 2xsd).
+
+ATTENTION: NEEDS 2:1 SNIPPET!!!
+######
+<rgg>
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+<separator label="Options top table (object/cell data)" span="full"/>
+<gaprow height="2"/>
+
+#1.0 Parameter selection
+<group>
+# 1.1 select row and column data
+<hbox>
+rowName = <combobox items="$$$ALL_ATTRIBUTES$$$" label="Row:" default-value="plateRow"/>;
+colName = <combobox items="$$$ALL_ATTRIBUTES$$$" label="Column:" default-value="plateColumn"/>;
+</hbox>
+
+<gaprow height="1"/>
+<separator label="Options bottom table (parameter-threshold table)" span="full"/>
+<gaprow height="2"/>
+
+# 1.2 select parameter column
+parameterColumn = <combobox items="$$$ALL_ATTRIBUTES_2$$$" label="Parameter:"/>;
+
+# 1.3 select threshold columns
+<hbox>
+thrHigh = <combobox items="$$$NUM_ATTRIBUTES_2$$$" label="Upper threshold:"/>;
+thrLow = <combobox items="$$$NUM_ATTRIBUTES_2$$$" label="Lower threshold:"/>;
+</hbox>
+
+</group>
+
+<![CDATA[
+
+#2.0 R code
+#parameterColumn <- "parameterName"
+#thrHigh <- "high"
+#thrLow <- "low"
+#rowName <- "plateRow"
+#colName <- "plateColumn"
+
+#2.1 load libraries
+
+#2.2.1 manage RGG to R: define as numbers
+
+#2.2.2 manage RGG to R: set values to default and check values
+
+#2.3 calculate
+wellList <- list()
+wellID <- 1
+
+#iterate over rows
+rowVec <- unique(kIn1[,rowName])
+for (row in rowVec){
+	subdataRow <- kIn1[which(kIn1[,rowName] == row),]
+	#iterate over columns
+	colVec <- unique(subdataRow[,colName])
+	for (col in colVec){
+		subdataCol <- subdataRow[which(subdataRow[,colName] == col),]
+		#iterate over all parameters
+		for (currentParameter in kIn2[,parameterColumn]){
+			percentLow <- length(which(subdataCol[,currentParameter] < kIn2[which(kIn2[,parameterColumn] == currentParameter),thrLow])) / length(na.omit(subdataCol[,currentParameter])) * 100
+			percentHigh <- length(which(subdataCol[,currentParameter] > kIn2[which(kIn2[,parameterColumn] == currentParameter),thrHigh])) / length(na.omit(subdataCol[,currentParameter])) * 100
+			wellList[[wellID]] <- data.frame("parameter" = currentParameter, "plateRow" = row, "plateColumn" = col, "percentHigh" = percentHigh, "percentLow" = percentLow)
+			wellID <- wellID +1
+			}
+		}
+	}
+rOut <- data.frame(do.call("rbind", wellList))
+
+]]>
+</rgg>
+########################################################################################
+# name: Median and MAD
+# author: Marc Bickle
+# category: calculators
+
+Calculates the median and the median absolute deviation (MAD) of the specified parameters grouped by the specified metadata column.
+
+######
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+#1.0 Parameter selection
+<group>
+selReadouts = c(<panellistbox label="Parameters of interest" items="$$$NUM_ATTRIBUTES$$$" span="full"/>)
+Group = c(<panellistbox label="Grouping column" items="$$$STR_ATTRIBUTES$$$" span="full"/>)
+</group>
+
+<![CDATA[
+#2.0 R code
+
+#2.3 calculate
+ret<-lapply(selReadouts, function(param){
+	mads<-tapply(kIn[,param], kIn[,Group], mad)
+	meds<-tapply(kIn[,param], kIn[,Group], median)
+	medmad<-data.frame(meds,mads)
+	names(medmad)<-paste(param,c("(median)","(MAD)"), sep=" ")
+	medmad
+});
+
+kIn<-do.call("cbind",ret);
+kIn<-cbind(kIn, rownames(kIn))
+
+rOut <- kIn;
+
+]]>
+</rgg>
+########################################################################################
+# name: R math / absolute values
+# author: Martin Stoeter
+# category: calculators
+
+Calculates absolute values of selected columns. Useful for turning a correlation matrix (e.g. Linear Correlation) containing correlation and anti-correlation into a matrix containing absolute correlation values (anti-correlation = correlation)
+- select columns to be returned as absolute values. Not selected columns will be returned as they are.
+- select if values should be returned as 1-absolute(value), useful for hierarchical clustering, where highly correlating parameters should show low distance (therefore cluster together).
+Available formulars: a) abs(x), b) 1-abs(x)
+######
+<rgg>
+
+<!--1. Title and short description -->
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+#1.0 Parameter selection
+<group>
+# 1) select the columns
+parameters = match(c(<panellistbox label="Column selection" items="$$$NUM_ATTRIBUTES$$$" visible-row-count="6" span="full"/>), names(kIn));
+
+# 2) select math
+mathForm = c(<combobox label="Mathematical formula" items="absolute_values,1-absolute_values"/>)
+</group>
+
+<![CDATA[
+
+#2.0 R code
+
+#2.1 load libraries
+
+#2.2.1 manage RGG to R: define as numbers
+
+#2.2.2 manage RGG to R: set values to default and check values
+
+#2.3 calculate
+if (mathForm == "absolute_values"){
+	for (parameter in parameters){
+		kIn[,parameter] <- abs(kIn[,parameter])
+		}
+	}
+
+if (mathForm == "1-absolute_values"){
+	for (parameter in parameters){
+		kIn[,parameter] <- 1-abs(kIn[,parameter])
+		}
+	}
+
+rOut <- kIn
+
+]]>
+</rgg>
+
+########################################################################################
+# name: Unique values
+# author: Antje Niederlein
+# category: calculators
+
+Returns unique values for all selected columns independently. If they differ in length, missing values will be added.
+
+######
+
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+# 1. Parameter selection
+
+<group>
+# 1) select the columns
+colSelection = match(c(<panellistbox label="Column selection" items="$$$ALL_ATTRIBUTES$$$" visible-row-count="6" span="full"/>), names(kIn));
+
+</group>
+
+
+<![CDATA[
+
+plist <- lapply(kIn[,colSelection], unique)
+
+maxlen<- max(sapply(plist, length))
+
+new.l <- lapply(plist, FUN = function(elem) {  c(elem,rep(NA,maxlen-length(elem))) })
+
+rOut <- data.frame(do.call("cbind", new.l))
+
+]]>
+
+</rgg>
+########################################################################################
+# name: Mahalanobis Distance Calculator
+# category: distance measures
+
+Calculates mahalonobis distances to the mean of a control group (typically your negative controls). 
+Option: choose to use the inverted covariance matrix (default: auto) 
+
+ATTENTION: 
+This snippet expects a column named 'treatment' with categorial values! Select a negative control name. This will be used if negative control column is set to -USE SELECTED TREATMENTS- (default).
+
+Alternatively, the message 'Error: Could not find atrribute: treatment' can be ignored, a negative control column can be selected and the name of the negative control can be given as text.   
+######
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+#1.0 Parameter selection
+
+<group>
+# 1) select the readouts that span the phenotypic space
+parameters = c(<panellistbox label="Features of interest" items="$$$NUM_ATTRIBUTES$$$" visible-row-count="6" span="full"/>)
+
+# 2) calculate mean and covariance of the negative controls
+treatment = <combobox items="$$$DOMAIN('treatment')$$$" label="Negative control name"/>
+<hbox>
+<combobox var = "treatmentColumn" label = "Negative control column" items = "-USE SELECTED TREATMENTS-,$$$STR_ATTRIBUTES$$$"/>
+<textfield label = "Negative control:" var="negColtrolName" data-type="text" default-value= "" size="10"/>
+</hbox>
+<gaprow height="1"/>
+
+useInverted = <combobox label="use inverted" items="auto,false,true"/>
+</group>
+
+<![CDATA[
+#2.0 R code
+
+#2.1 load libraries
+library(MASS)
+
+#2.2.1 manage RGG to R: define as numbers
+
+#2.2.2 manage RGG to R: set values to default and check values
+if (treatmentColumn == "-USE SELECTED TREATMENTS-") {
+	treatmentColumn <- "treatment" #define treatment column as column treatment present in data table
+} else {
+	treatment <- negColtrolName  #set was the used wrote in template
+}
+
+#2.3. calculate
+featSelection = match(parameters, names(kIn))  # get vector for feature columns
+negCtrls = kIn[which(kIn[,treatmentColumn] == treatment),]  # get table with only negative control values
+
+#check if enough negative controls values are found and features are selected
+if(length(rownames(negCtrls)) == 0) stop(paste("not enough negative controls (", treatment, ") found in column ", treatmentColumn, sep=""))
+if(length(featSelection) < 2 ) stop("not enough features selected, choose at least 2!")
+
+nc <- negCtrls[,featSelection]
+ncCov <- cov(na.omit(array(nc)))
+ncMean <- colMeans(nc, na.rm=TRUE)
+outInverted <- useInverted
+
+#check the determinant of the covariance matrix to prevent error message if determinant is too small
+if(useInverted == "auto") {
+	if(det(ncCov) < .Machine$double.eps) {
+	#if too small take inverse matrix
+	useInverted <- "true"
+	} else useInverted <- "false"
+}
+if(useInverted == "true") {
+	#if too small take inverse matrix
+	ncCov <- ginv(ncCov)
+	mahaInverted <- TRUE
+} 
+if(useInverted == "false") {
+	ncCov <- cov(na.omit(array(nc)))
+	mahaInverted <- FALSE
+}
+
+# append the distance as additional column
+kIn$mahadist <- mahalanobis(array(kIn[featSelection]), ncMean, ncCov, inverted = mahaInverted)
+kIn$mahadistMode <- outInverted
+
+rOut <- kIn
+
+]]>
+</rgg>
+######################################################################################
+# name: Power transformation and Z rank transformation
+# author: Martin Stoeter, Caroline Reiche
+# category: distributions
+# preview: 
+
+This rank-preserving data transformation is a pre-processing technique to stabilize the variance and to make the data more normal distribution-like. The Z rank transformation (project_to_Gaussian) projects the data to a random normal distribution. For each group and each parameter the values are transformed independently.
+- select type of normalization
+- select parameters that should be rank normalized 
+- select a group column that should be used for ranking (e.g. barcode, date, project name,...)
+If subset data is chosen as reference, only this subset data is used to calculate the lambda for the transformation (either a) or b); not possible in Z rank!).
+a) select a column and give name of subset data used as reference 
+b) select subset of column 'treatment' to be used as reference (needs a column with name 'treatment') 
+######
+
+<rgg>
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+#1.0 Parameter selection
+<group>
+# 1.1 select type of transformation
+transformation = <combobox items="Box-Cox,Yeo-Johnson,basic,project_to_Gaussian" label="Power transformation"/>;
+
+# 1.2 select the columns
+selectedParams = match(c(<panellistbox label="Column selection" items="$$$NUM_ATTRIBUTES$$$" visible-row-count="6" span="full"/>), names(kIn));
+
+# 1.3 select group
+group = <combobox items="$$$STR_ATTRIBUTES$$$" label="Group column"/>
+
+# 1.4 select subset
+<separator label="Subset data as reference" span="full"/>
+subsetOption = <combobox items="-NO SUBSET - USE ALL DATA IN GROUP!-,a) subset column,b) subset of column 'treatment'" label="Subset column"/>
+<hbox>
+subsetColumn = <combobox items="-NOT USED-,$$$STR_ATTRIBUTES$$$" label="a) Subset column"/>
+<textfield label="subset:" var="subsetName" data-type="text" default-value= "" size="5" />
+</hbox>
+subsetTreatment = <combobox label="b) Subset of column 'treatment'" items="-NOT USED-,$$$DOMAIN('treatment')$$$" />
+
+</group>
+
+<![CDATA[
+
+#2.0 R code
+
+#2.1 load libraries
+library(car)
+library(alr3)
+
+#ensure randomness
+set.seed( as.integer((as.double(Sys.time())*1000+Sys.getpid()) %% 2^31) )
+
+#2.2.1 manage RGG to R: define as numbers
+
+#2.2.2 manage RGG to R: set values to default and check values
+
+#2.3. calulate
+
+data <-kIn
+allGroups <- unique(data[,group])
+
+
+if (transformation == "project_to_Gaussian") {
+
+    #calc z rank normalization per group
+    for (i in 1:(length(allGroups))) {	
+        # get number of values in that group
+        curGroup <- allGroups[i]
+        groupData <-which(data[,group] == curGroup)
+        nValues <- length(groupData)
+        #generate normal distributes data (100-fold resolution of number of value in group)
+        normData <- sort(rnorm(nValues*100, mean = 0, sd = 1))	
+        
+        for (param in 1:(length(selectedParams))) {
+            #replace raw values with projected raw data to normal distribution
+            rawValues <- data[groupData, selectedParams[param]]
+            rankVals <- as.integer(rank(rawValues))
+            transformedData <- normData[rankVals*100-50]
+            temp <- data.frame(rowID = groupData, values = rawValues, rank = rankVals, normData = transformedData)
+            data[temp[,"rowID"], selectedParams[param]] <- temp[,"normData"] 
+        }
+    }
+    transformedNames <- paste(names(data)[selectedParams], '.zrank', sep = "") #project_to_Gaussian	
+
+	} else {
+	
+	if ((transformation == "Box-Cox") | (transformation == "basic")) {
+	
+		#ensure that all values are strictly positive
+		for (j in 1:length(selectedParams)) {
+			param <- selectedParams[j]
+			data[, param] <- data[, param] - min(data[, param]) + 0.01
+			}
+		}
+
+	for (i in 1:(length(allGroups))) {	
+		# calculate the optimal lambda for the trafo
+		switch(which(subsetOption == c("-NO SUBSET - USE ALL DATA IN GROUP!-","a) subset column","b) subset of column 'treatment'")), {
+			#all data
+			dataMatrix <- as.matrix(data[which(data[,group] == allGroups[i]), selectedParams]) 
+			}, {
+			#a) subset column
+			if (subsetColumn != "-NOT USED-") {
+				dataMatrix <- as.matrix(data[which((data[,group] == allGroups[i]) & (data[, subsetColumn] == subsetName)), selectedParams])
+				} else {
+				dataMatrix <- as.matrix(NA)	
+				}
+			}, { 
+			#b) 'treatment'
+			if (subsetTreatment != "-NOT USED-") {
+				dataMatrix <- as.matrix(data[which((data[,group] == allGroups[i]) & (data[,"treatment"] == subsetTreatment)), selectedParams])
+				} else {
+				dataMatrix <- as.matrix(NA)	
+				}
+			})
+
+		if (length(dataMatrix) > 2) {
+			
+			# apply the trafo
+			switch(which(transformation == c('Box-Cox','Yeo-Johnson','basic')), {
+
+				powers <- c()
+				for (k in 1:ncol(dataMatrix)) {
+					powers[k] <- powerTransform(dataMatrix[,k])$lambda
+					}
+				data[which(data[,group] == allGroups[i]), selectedParams] <- bcPower(data[which(data[,group] == allGroups[i]), selectedParams], powers) #Box-Cox
+				transformedNames <- paste(names(data)[selectedParams], '.bcPower', sep = "")}, { 
+
+				powers <- c()
+				for (k in 1:ncol(dataMatrix)) {
+					powers[k] <- powerTransform(dataMatrix[,k],family="yjPower")$lambda
+					}
+				data[which(data[,group] == allGroups[i]), selectedParams] <- yjPower(data[which(data[,group] == allGroups[i]), selectedParams], powers) #Yeo-Johnson
+				transformedNames <- paste(names(data)[selectedParams], '.yjPower', sep = "")}, { 
+
+				powers <- c()
+				for (k in 1:ncol(dataMatrix)) {
+					powers[k] <- powerTransform(dataMatrix[,k])$lambda
+					}
+				data[which(data[,group] == allGroups[i]), selectedParams] <- basicPower(data[which(data[,group] == allGroups[i]), selectedParams], powers) #basic power transformation
+				transformedNames <- paste(names(data)[selectedParams], '.power', sep = "")})
+			
+			} else {
+			data[which(data[,group] == allGroups[i]), selectedParams] <- NA	
+			}
+		}
+	}
+	
+#rename transformed data columns
+#switch(which(transformation == c('Box-Cox','Yeo-Johnson','basic','project_to_Gaussian')), {
+#	transformedNames <- paste(names(data)[selectedParams], '.bcPower', sep = "")}, { #Box-Cox#
+#	transformedNames <- paste(names(data)[selectedParams], '.yjPower', sep = "")}, { #Yeo-Johnson
+#	transformedNames <- paste(names(data)[selectedParams], '.power', sep = "")}, { #basic power transformation
+#	transformedNames <- paste(names(data)[selectedParams], '.zrank', sep = "")} #project_to_Gaussian
+#	)
+	
+# bind both dataframes together	
+newColNames <- c(names(kIn), transformedNames)
+rOut <- cbind(kIn, data[,selectedParams])	
+names(rOut) <- newColNames	
+
+]]>
+</rgg>
+########################################################################################
+# name: Ranking Multiparametric Profiles (for Normalization Carpenter)
+# author: Marc Bickle
+# category: distributions
+
+Ranks the values of a parameter in a multi parametric profile within a dataset. Best practice is to use normalised data and rank over the entire data set.
+######
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+#1. Parameter selection
+<group>
+selReadouts = c(<panellistbox label="Parameters to normalize" items="$$$NUM_ATTRIBUTES$$$" span="full"/>)
+Dataset = c(<panellistbox label="Choose the datasets" items="$$$STR_ATTRIBUTES$$$" span="full"/>);
+</group>
+
+<![CDATA[
+#2.0 R code
+
+#2.3 calculate
+setList <- unique(kIn[,Dataset])
+final<-NULL
+for (j in 1:length(setList)){
+	data <- kIn[which(kIn[,Dataset] == setList[j]),]
+	res<- data
+	for (i in 1:length(selReadouts)) {
+  		#DEBUG i<- 3
+  		rankData<- rank(data[,selReadouts[i]])
+  		rankData<-data.frame(rankData)
+  		names(rankData)<-paste(names(kIn[selReadouts[i]]), "rank", sep ="_")
+  		res<-cbind(res,rankData)
+		}
+	final <- rbind(final,res)
+	}
+
+rOut <- final;
+
+]]>
+</rgg>
+########################################################################################
+# name: Shapiro-Wilk Normality Test (QQ-Plot)
+# author: Holger Brandl, Martin Stoeter 
+# category: distributions
+# preview: qq-plot.png
+
+Shapiro-Wilk Normality Test calculates statistics to judge the distribution of data (with respect to normal distribution). 
+The QQ-Plot visualizes the data in respect to a normal distribution. 
+- to use a flow variable check box and type in variable name using the format: FLOWVAR(variable name)
+- use the R-plot template "QQ-Plot grid" to do the QQ-plots
+######
+
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+#1. Parameter selection
+<group>
+
+#Select the parameter of interest
+<label text="Select your parameters for which you would like to do the Shapiro-Wilk Normality Test"/>
+
+selReadouts = c(<panellistbox label="Parameters of interest" items="$$$NUM_ATTRIBUTES$$$" span="full"/>)
+<hbox>
+<checkbox  label="use flow variable" var="useFlowVarSelReadouts" selected="false"/>
+<textfield label="flow variable:" var="flowVariableSelReadouts" data-type="text" default-value= "" size="10" span="full"/>
+</hbox>
+
+</group>
+
+<![CDATA[
+
+#2. r-code
+
+#2.0 load libaries
+
+#2.1 manage RGG to R: define as numbers
+
+#2.2 manage RGG to R: set scales to default and check scales
+if (useFlowVarSelReadouts) selReadouts <- flowVariableSelReadouts
+
+#3. calculate
+#allResults <- list()
+# iterate over all parameters and create plots for all of them
+#ret <- apply(selReadouts, FUN = function (param) {
+#	plotVar = eval(parse(text = paste("kIn$\"", param, "\"", sep = '')))
+	#remove NA (shaper test allows only maximum of 5000 NA)
+#	plotVar <- plotVar[which(!is.na(plotVar))]
+
+	# do the test and add the p-value to the plot
+#	testresult <- shapiro.test(plotVar)
+#	ShapiroResults <- data.frame(parameter = param, pvalue = testresult$p.value, W = testresult$statistic, n = length(plotVar))
+#	})
+#   ShapiroResult <- data.frame(do.call("rbind", ret))
+
+
+#3. calculate
+allResults <- list()
+# iterate over all parameters and create plots for all of them
+for (i in 1:length(selReadouts)) {
+	#remove NA (shapiro test allows NA but data has to have 3 - 5000 non-missing-values)
+	data <- kIn[which(!is.na(kIn[,selReadouts[i]])), selReadouts[i]]
+
+    # if there are more than 5000 data points, run test on a subset
+    if(length(data) > 5000) {
+        data <- sample(data, 5000)
+    }
+
+    # do the test and add the p-value to the plot
+	result <- shapiro.test(data)
+	
+	allResults[[i]] <- data.frame(parameter = selReadouts[i], "p-value" = result$p.value, "log10(p-value)" = log10(result$p.value), "p-value.text" = format(result$p.value, scientific = TRUE, digits = 4), W = result$statistic, n = length(data))
+	}
+
+rOut <- data.frame(do.call("rbind", allResults))
+
+]]>
+</rgg>
+
+########################################################################################
+# name: Normalization Carpenter
+# author: Marc Bickle
+# category: normalization
+
+Normalizes using a projection of the cell based data between 0 and 1 based on the 1st percentile and the 99th percentile
+
+######
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+#1.0 Parameter selection
+<group>
+selReadouts = c(<panellistbox label="Parameters to normalize" items="$$$NUM_ATTRIBUTES$$$" span="full"/>)
+
+Group = <combobox label="Group" items="$$$STR_ATTRIBUTES$$$" />;
+
+Treatment = <combobox label="Treatment" items="$$$STR_ATTRIBUTES$$$" />;
+
+<vector label="Negative control" var="negCtrl" size = "1" default-value="DMSO" vector-type="character"/>
+
+</group>
+
+<![CDATA[
+#2.0 R code
+
+#2.3 calculate
+
+# get unique groups
+grouplist<-unique(na.omit(kIn[,Group]))
+
+# define normalization function given a high and low value and x
+Norm <- function(x, controlLow, controlHigh) ((controlLow - x) / controlHigh)
+
+nrows <- nrow(kIn)
+for(i in 1:length(selReadouts)){
+  name <- paste(selReadouts[i], "norm", sep ="_")
+  kIn[[name]] <- rep_len(NA, nrows)
+}
+
+for(i in 1:length(grouplist)){
+  
+  dataIdx <- which(kIn[,Group] == grouplist[i])
+  groupdata<-kIn[dataIdx,]
+  controlPop<-groupdata[which(groupdata[,Treatment] == negCtrl),]
+  
+  if(nrow(controlPop) < 2)
+    stop("Control population too small")
+  
+  for(j in 1:length(selReadouts)){
+    
+    readout <- selReadouts[j]
+    controlData <- controlPop[,readout]
+    data <- groupdata[,readout]
+    controlLow <- quantile(controlData, probs= 0.01, type = 4, na.rm = TRUE)
+    controlHigh <- quantile(controlData, probs= 0.99, type = 4, na.rm = TRUE)
+    res <- unlist(lapply(data, Norm, controlLow, controlHigh))
+    name <- paste(readout, "norm", sep ="_")
+    kIn[dataIdx,name] <- res
+  }
+}
+
+rOut <- kIn;
+
+]]>
+</rgg>
+########################################################################################
+# name: Correlation of parameters
+# author: Martin Stoeter
+# category: relations
+
+Calculates the correlation between all chosen parameters.
+
+For all selected parameters a pairwise correlation will be calculated (P1 vs P2, P1 vs P3, P2 vs P3) for the entire table (missing values will be removed/ignored).
+n is the number of data pointe in correlation. The type of correlation can be selected.
+######
+
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+# 1. Parameter selection
+
+<group>
+# 1) select parameters for replicate correlation
+paramName = c(<panellistbox label="Parameters for correlation" items="$$$NUM_ATTRIBUTES$$$" span="full"/>);
+
+# 2) select correlation method
+corrFunctionMethod = <combobox items="pearson, kendall, spearman" label="Select correlation method"/>;
+
+</group>
+
+<![CDATA[
+
+#define replicates: e.g A,B,C
+repVector <- paramName
+
+#iterate all parameters(A,B,C -> AB, AC, BC)
+for (i in 1:(length(repVector)-1)) {
+
+	for (j in (i+1):length(repVector)) {
+
+			corrTable <- as.matrix(kIn[,c(repVector[i], repVector[j])])
+			#remove NA
+			corrTable <- corrTable[which(!is.na(corrTable[,repVector[i]]) & !is.na(corrTable[,repVector[j]])),]
+
+			#check if XYtable match is bigger than 1
+			sampleIDmatch <- length(corrTable)
+
+			if (sampleIDmatch > 1) {
+				#calculate correlation
+				correlation <- cor.test(corrTable[,repVector[i]], corrTable[,repVector[j]], method = corrFunctionMethod)
+				corrEstimate <- correlation$"estimate"
+				corrMethod <- correlation$"method"
+				} else {
+				corrEstimate <- as.numeric(NA)
+				corrMethod <- "not enough samples for correlation"
+				sampleIDmatch <- 0
+				}
+
+		#assemble result
+		pearsonResult <- data.frame(parameter1 = repVector[i], parameter2 = repVector[j], n = sampleIDmatch, coefficient = corrEstimate, method = corrMethod)
+
+		if (exists("pearsonResultTable")) {
+			pearsonResultTable <- data.frame(rbind(pearsonResultTable, pearsonResult))
+			} else {
+			pearsonResultTable <- pearsonResult
+			}
+		}
+	}
+
+rOut <- pearsonResultTable
+]]>
+
+</rgg>
+########################################################################################
+# name: Correlation of multi-parametric profiles
+# author: Martin Stoeter
+# category: relations
+
+Calculates the correlation between multi-parameteric profiles.
+
+Select columns for "Group identifier" (e.g., gene symbol) and "Sample identifier" (e.g. siRNA-ID or oligo letter). Use the check boxes to define which combinations should be calculated. 
+a) all combinations of groups: e.g. oligos of gene A will be correlated with oligos of gene B
+b) all combinations of samples: e.g. oligo A will be correlated with oligo B
+Be aware that if you do all combinations the snippet could take a while! 
+
+For all pairwise combinations of the correlation of selected profile parameters will be calculated (missing values will be removed/ignored). 
+n is the number of parameters in correlation. The type of correlation can be selected.
+######
+
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+# 1. Parameter selection
+
+<group>
+# 1) select parameters for replicate correlation
+paramName = c(<panellistbox label="Parameters for profile" items="$$$NUM_ATTRIBUTES$$$" span="full"/>);
+
+# 2) select column that contains sample ID
+<hbox>
+IDgene = <combobox label="Group identifier" items="$$$STR_ATTRIBUTES$$$" />
+<checkbox label="All combinations of groups" var="allCombiGene" selected="false"/>
+</hbox>
+
+# 3) select column that contains group ID
+<hbox>
+IDoligo = <combobox label="Sample identifier" items="$$$STR_ATTRIBUTES$$$"/>
+<checkbox label="All combinations of samples" var="allCombiOligo" selected="false"/>
+</hbox>
+
+# 4) select correlation method
+corrFunctionMethod = <combobox items="pearson, kendall, spearman" label="Select correlation method"/>;
+
+</group>
+
+<![CDATA[
+
+#check parameters
+if(length(paramName) < 3) stop("to few parameters selected, choose at least 3!")
+  
+#define group: e.g genes
+geneVector <- unique(as.character(na.omit(kIn[, IDgene])))
+
+# create unqique combinations (disregarding order!) to calculate the correlation on
+combVec <- t(rbind(geneVector,geneVector))
+
+#define result table before iterations
+pearsonResult <- as.data.frame(NULL)
+
+#now do correlation within groups (geneA vs geneA)
+for (comb in 1:length(combVec[,1])){
+	# extract data rows to correlate
+	kInXtable <- kIn[which(as.character(kIn[,IDgene]) == combVec[comb,1]),c(IDgene, IDoligo, paramName)]
+	kInYtable <- kIn[which(as.character(kIn[,IDgene]) == combVec[comb,2]),c(IDgene, IDoligo, paramName)]
+	#both for loops avoid correlation A vs A (same =1) and redundancy A vs B and B vs A (here necessary because groups are the same!) 
+	for (xOligo in 1:(length(kInXtable[,1])-1)){
+		for (yOligo in (xOligo+1):length(kInYtable[,1])){
+			#correlate all oligos or only the same oligos (oligoA vs oligoA, B, ...)
+			if (allCombiOligo || (kInXtable[xOligo,IDoligo] == kInYtable[yOligo,IDoligo])){	
+				corrTable <- t(as.matrix(rbind(kInXtable[xOligo,paramName], kInYtable[yOligo,paramName])))
+				#remove NA
+				if (length(colnames(corrTable)) == 2) {
+					corrTable <- corrTable[which(!is.na(corrTable[,1]) & !is.na(corrTable[,2])),]
+					sampleIDmatch <- length(corrTable[,1])
+					if (sampleIDmatch > 1) {
+						correlation <- cor.test(corrTable[,1], corrTable[,2], method = corrFunctionMethod)		
+						corrEstimate <- correlation$"estimate"
+						corrMethod <- correlation$"method"
+						} else {
+						corrEstimate <- as.numeric(NA)
+						corrMethod <- "not enough values for correlation"
+						sampleIDmatch <- as.numeric(NA)
+						}
+					} else {
+					corrEstimate <- as.numeric(NA)
+					corrMethod <- "not enough profiles for correlation"
+					sampleIDmatch <- as.numeric(NA)
+					}  
+				pearsonResult <- rbind(pearsonResult, data.frame(groupID1 = combVec[comb,1], sampleID1 = kInXtable[xOligo,IDoligo], groupID2 = combVec[comb,2], sampleID1 = kInYtable[yOligo,IDoligo], n = sampleIDmatch, coefficient = corrEstimate, method = corrMethod))
+				}
+			}
+		}
+	}
+
+#now do correlation between groups (geneA vs geneB)
+if (allCombiGene){		
+	combVec <- t(combn(geneVector,2))
+	for (comb in 1:length(combVec[,1])){
+		# extract data rows to correlate
+		kInXtable <- kIn[which(as.character(kIn[,IDgene]) == combVec[comb,1]),c(IDgene, IDoligo, paramName)]
+		kInYtable <- kIn[which(as.character(kIn[,IDgene]) == combVec[comb,2]),c(IDgene, IDoligo, paramName)]
+		for (xOligo in 1:length(kInXtable)){
+			for (yOligo in 1:length(kInYtable)){
+				#correlate all olives or only the same olives (oligoA vs oligoA, B, ...)
+				if (allCombiOligo || (kInXtable[xOligo,IDoligo] == kInYtable[yOligo,IDoligo])){	
+					corrTable <- t(as.matrix(rbind(kInXtable[xOligo,paramName], kInYtable[yOligo,paramName])))
+					#remove NA
+					corrTable <- corrTable[which(!is.na(corrTable[,1]) & !is.na(corrTable[,2])),]
+					sampleIDmatch <- length(corrTable[,1])
+					if (sampleIDmatch > 1) {
+						correlation <- cor.test(corrTable[,1], corrTable[,2], method = corrFunctionMethod)		
+						corrEstimate <- correlation$"estimate"
+						corrMethod <- correlation$"method"
+						} else {
+						corrEstimate <- as.numeric(NA)
+						corrMethod <- "not enough values for correlation"
+						sampleIDmatch <- as.numeric(NA)
+						}
+					#assemble result
+					pearsonResult <- rbind(pearsonResult, data.frame(groupID1 = combVec[comb,1], sampleID1 = kInXtable[xOligo,IDoligo], groupID2 = combVec[comb,2], sampleID1 = kInYtable[yOligo,IDoligo], n = sampleIDmatch, coefficient = corrEstimate, method = corrMethod))
+					}
+				}
+			}
+		}
+	}
+
+rOut <- pearsonResult
+
+]]>
+
+</rgg>
+########################################################################################
+# name: Correlation of replicates
+# author: Martin Stoeter
+# category: relations
+
+Calculates the correlation between replicates for all chosen parameters.
+
+The table must contain a column of replicate information. Then another column must contain the sample identifier, which must be unique within a replicate (e.g. platenumber::well, but not barcode!), AND the same between the replicates. 
+For the corresponding sample identifiers the correlation will be calculated pairwise between the replicates (A vs B, A vs C, B vs C) for the selected parameters (missing values will be removed/ignored).
+n is the number of sample identifiers per replicate in correlation. The type of correlation can be selected.
+
+Option: R square can be also calculated from linear regression
+
+Trouble shooting:
+a) "sampleID not unique" -> more than 1 sampleID (eg wells) per replicate
+b) "not enough samples for correlation" -> sampleID for a replicate = 0 (no data to correlate)
+HINT: use GroupBy[Unique concatenate with count(replicate)] on selected sampleID column, must be replicate count = 1 for each sampleID
+######
+
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+# 1. Parameter selection
+
+<group>
+# 1) select parameters for replicate correlation
+paramName = c(<panellistbox label="Parameters for correlation" items="$$$NUM_ATTRIBUTES$$$" span="full"/>);
+
+# 2) select column that contains replicate annotation
+repColName = <combobox label="Replicate column" items="$$$STR_ATTRIBUTES$$$" default-value="replicate"/>;
+
+# 3) select column that contains sample ID
+IDname = <combobox label="Sample identifier" items="$$$STR_ATTRIBUTES$$$" />;
+
+# 4) select correlation method
+corrFunctionMethod = <combobox items="pearson, kendall, spearman" label="Select correlation method"/>;
+
+# 4) select correlation method
+useRegression = <checkbox label="Calculate Rsquare from linear regression" selected="false"/>;
+
+</group>
+
+<![CDATA[
+
+#define replicates: e.g A,B,C
+repVector <- unique(as.character(na.omit(kIn[, repColName])))
+if(length(paramName) < 1 ) stop("no parameters selected, choose at least 1!")
+
+#iterate all replicates(A,B,C -> AB, AC, BC)
+for (i in 1:(length(repVector)-1)) {
+  
+	#define first table (A): e.g. kInA <- kIn[(which(kIn$"replicate"=="A")),c("sampleID","replicate","AvgIntenCh1","MinDistCh1","AreaCh1","CellNumber")]
+	kInXtable <- kIn[which(as.character(kIn[,repColName]) == repVector[i]),c(IDname, repColName, paramName)]
+  
+	for (j in (i+1):length(repVector)) {
+    
+		#define second table (B)
+		kInYtable <- kIn[which(as.character(kIn[,repColName]) == repVector[j]),c(IDname, repColName, paramName)]
+    
+		for (paramIteration in paramName) {
+      
+			#check if sampleIDs are unique, NA are ignored 
+			if (length(unique(as.character(na.omit(kInXtable[,IDname])))) == length(as.character(na.omit(kInXtable[,IDname]))) & length(unique(as.character(na.omit(kInYtable[,IDname])))) == length(as.character(na.omit(kInYtable[,IDname])))) {
+				corrTable <- merge(kInXtable[,c(IDname, repColName, paramIteration)], kInYtable[,c(IDname, repColName, paramIteration)], by.x = IDname, by.y =IDname, all = FALSE)
+				#remove NA => now not needed anymore because merge(... all=FALSE) means inner join and row with NA in joining/merging column are removed
+				if(corrFunctionMethod != "pearson") corrTable <- corrTable[which(!is.na(corrTable[,paste(paramIteration, "x", sep="."),]) & !is.na(corrTable[,paste(paramIteration, "y", sep="."),])),]
+        
+				#check if XYtable match is bigger than 1
+				sampleIDmatch <- length(corrTable[,1])
+        
+				if (sampleIDmatch > 1) {				
+					#calculate correlation
+					correlation <- cor.test(corrTable[,paste(paramIteration, "x", sep=".")], corrTable[,paste(paramIteration, "y", sep=".")], method = corrFunctionMethod)
+					corrEstimate <- correlation$"estimate"
+					corrMethod <- correlation$"method"
+					if(corrFunctionMethod == "pearson") {
+						corrDF <- correlation$"parameter" + 2  #DF = degree of freedom = number of XY-pairs without NAs 
+						} else {
+						corrDF <- sampleIDmatch
+						}
+					#corrPvalue <- correlation$"p.value" #is allways 0 in pearson correlation!?
+					if(useRegression) {
+						regression <- lm(corrTable[,paste(paramIteration, "x", sep=".")] ~ corrTable[,paste(paramIteration, "y", sep=".")])
+						rSquared <- summary(regression)$r.squared
+						}
+					} else {
+					corrEstimate <- as.numeric(NA)
+					corrMethod <- "not enough samples for correlation"
+					#corrPvalue <- as.numeric(NA)
+					if(useRegression) rSquared <- as.numeric(NA)
+					corrDF <- 0
+					}
+				} else {
+				corrEstimate <- as.numeric(NA)
+				corrMethod <- "sampleID not unique"
+				#corrPvalue <- as.numeric(NA)
+				if(useRegression) rSquared <- as.numeric(NA)
+				corrDF <- as.numeric(NA)
+				}
+      
+			#assemble result
+			if(useRegression) {
+				pearsonResult <- data.frame(parameter = paramIteration, replicate1 = repVector[i], replicate2 = repVector[j], n = corrDF, coefficient = corrEstimate, method = corrMethod, linear.regression.R.squared = rSquared) #p.value = corrPvalue,
+				} else {
+				pearsonResult <- data.frame(parameter = paramIteration, replicate1 = repVector[i], replicate2 = repVector[j], n = corrDF, coefficient = corrEstimate, method = corrMethod)
+				}
+			if (exists("pearsonResultTable")) {
+				pearsonResultTable <- data.frame(rbind(pearsonResultTable, pearsonResult))
+				} else {
+				pearsonResultTable <- pearsonResult
+				}
+			}
+		}
+	}
+
+rOut <- pearsonResultTable
+
+]]>
+
+</rgg>
+########################################################################################
+# name: Create column name table from selection
+# author: Holger Brandl, Martin Stoeter
+# category: utilities
+# preview: CreateColumnNameTableFromSelection.png
+
+Creates a table with a single column that contains the selected column headers.
+- select or type name of column for column headers
+- preview shows what the snippet is doing instead of using KNIME nodes
+- use check box to create two more columns with additional tags (for looping barplot)
+- if the selecsted column headers haver already the tag ' (Mean)' from GroupBy node, then this tag can be removed before processing (generate column table from aggregated data)
+
+######
+
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+#1.0 Parameter selection
+<group>
+# 1) select the columns
+columnHeaders = c(<panellistbox label="Column selection" items="$$$PARNAMES$$$" visible-row-count="6" span="full"/>)
+
+# 2) select column name
+<textfield label="name of column headers" var="columnHeaderName" data-type="text" default-value= "parameter name" size="10" span="full"/>
+
+# 3) make columns for barplot looping
+<gaprow height="2"/>
+<separator label="more options: barplot looping columns / adding tags to column headers" span="full"/>
+<hbox>
+<checkbox label="make barplot looping columns?" var="makeTagColumns" selected="false"/>
+<checkbox label="remove tag ' (Mean)'?" var="isTagColumn" selected="false"/>
+</hbox>
+<vector label="tags for the two columns" var="tagVector" size="2" default-value=" (Mean), (Standard deviation)" vector-type="character"/>
+<vector label="column names of the two columns" var="tagNameVector" size="2" default-value="mean,sd" vector-type="character"/>
+
+</group>
+
+<![CDATA[
+
+#2.0 R code
+
+#2.1 load libraries
+
+#2.2.1 manage RGG to R: define as numbers
+
+#2.2.2 manage RGG to R: set values to default and check values
+if (is.na(columnHeaderName)) columnHeaderName <- "column header"	  #default
+
+#2.3. calculate
+if (isTagColumn) {
+	columnHeaders <- substr(columnHeaders, 1, nchar(columnHeaders) - 7)
+	}
+
+if (makeTagColumns) {
+	rOut <- data.frame(columnHeaders, paste(columnHeaders, tagVector[1], sep=""), paste(columnHeaders, tagVector[2], sep=""))
+	names(rOut) <- c(columnHeaderName, tagNameVector)
+	} else {
+	rOut <- data.frame(columnHeaders)
+	names(rOut) <- c(columnHeaderName)
+	}
+]]>
+
+</rgg>
+########################################################################################
+# name: Handle and filter NaN and infinite values
+# author: Martin Stoeter
+# category: utilities
+
+NaN are missing values that are created by some nodes (e.g. HCS tools - Normalization) and that are different from KNIMEs' missing values ("?", in R = "NA").
+Infinite are positive or negative invinite values that are created by some nodes (e.g. HCS tools - Normalization) by devision by zero.
+NaN can be filtered by Row Filter with patters "NaN" on number column, however this is tedious for many columns. 
+Infinite can be filtered by Row Filter using very high or low values, however this is tedious for many columns.
+This R snippet allows handling of NaN and infinite on input table.
+- select type of output:
+	1. All column names and number of found NaN and infinite (count all NaN and infinite per column)
+	2a. Only column names that contain NaN (list of NaN columns)
+	2b. Only column names that contain NaN or infinite (list of NaN and infinite columns)
+	3a. Input table without NaN columns (filter NaN columns out)
+	3b. Input table without NaN and infinite columns (filter NaN and infinite columns out)
+	4a. Input table with NaN replaced by NA (NA = KNIME understandable missing values)
+	4b. Input table with NaN and infinite replaced by NA (NA = KNIME understandable missing values)
+
+######
+
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="1"/>
+
+#1.0 Parameter selection
+<group>
+
+# 2) select column name
+typeOfOutput = <combobox label="Select type of output" items="All column names and number of found NaN and infinite,Only column names that contain NaN,Only column names that contain NaN or infinite,Input table without NaN columns,Input table without NaN or infinite columns,Input table with NaN replaced by NA,Input table with NaN and infinite replaced by NA" />;
+</group>
+
+<![CDATA[
+
+#2.0 R code
+
+#2.1 load libraries
+
+#2.2.1 manage RGG to R: define as numbers
+
+#2.2.2 manage RGG to R: set values to default and check values
+
+#2.3 calculate
+NaNresult <- list()
+
+for (i in 1:(length(kIn[1,]))) {
+	NaNresult[[i]] <- data.frame(columnName=names(kIn[i]), numberOfNaN=length(which(is.nan(kIn[,i]))), numberOfInfinite=length(which(is.infinite(kIn[,i])))) 
+		}
+
+#returns the column names with the number of NaN found
+NaNresult <- do.call("rbind",NaNresult)
+
+#return the input table without column containing NaN
+if (typeOfOutput == "Input table without NaN columns") {
+	NaNresult <- kIn[,which(!NaNresult[,2]>0)]
+	} 
+	
+#return the input table without column containing NaN or infinite
+if (typeOfOutput == "Input table without NaN or infinite columns") {
+	NaNresult <- kIn[,which((!NaNresult[,2]>0) | (!NaNresult[,3]>0))]
+	} 
+
+#returns only the column names that contain NaN values
+if (typeOfOutput == "Only column names that contain NaN") {
+	NaNresult <- NaNresult[which(NaNresult[,2]>0),]
+	}
+	
+#returns only the column names that contain NaN or infinite values
+if (typeOfOutput == "Only column names that contain NaN or infinite") {
+	NaNresult <- NaNresult[which((NaNresult[,2]>0) | (NaNresult[,3]>0)),]
+	}
+
+#replace NaN with NA and turn complete table
+if (typeOfOutput == "Input table with NaN replaced by NA") {
+	for (i in 1:(length(kIn[1,]))) {
+		if (NaNresult[i,"numberOfNaN"] > 0) {
+			kIn[which(is.nan(kIn[,i])),i] <- NA
+			}
+		}
+	NaNresult <- kIn
+	}
+	
+#replace NaN and infinite with NA and turn complete table
+if (typeOfOutput == "Input table with NaN and infinite replaced by NA") {
+	for (i in 1:(length(kIn[1,]))) {
+		if ((NaNresult[i,"numberOfNaN"] > 0) || (NaNresult[i,"numberOfInfinite"] > 0)) {
+			kIn[which((is.nan(kIn[,i])) | (is.infinite(kIn[,i]))),i] <- NA
+			}
+		}
+	NaNresult <- kIn
+	}
+
+rOut<- NaNresult
+
+]]>
+</rgg>
+########################################################################################
+# name: Reference Column Filter (2:1)
+# author: Martin Stoeter
+# category: utilities
+# preview: ReferenceColumnFilter.png
+
+Filters the unselected columns of input port 1 (columns to be filtered) using a reference column of input port 2.
+- select columns to be kept in input 1 (filter is not applied)
+- select the column in input 2 that contains column headers for reference filter
+- select way of filtering (filter in = keep what is in reference, filter out = drop what is in reference)
+
+Preview shows what the snippet is doing instead of using KNIME nodes
+
+NEEDS R snippet (2:1) !!!
+######
+
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="1"/>
+
+#1.0 Parameter selection
+
+<group>
+# 1) select columns that should be kept
+keepColumns = c(<panellistbox label="Select columns that are not filtered (input 1)" items="$$$PARNAMES$$$" span="full"/>);
+
+# 2) select column that contains replicate annotation 
+refColumnName = <combobox label="Column for reference filter (input 2)" items="$$$STR_ATTRIBUTES_2$$$" />;
+
+# 3) type of filter 
+filter = <combobox label="Way to filter" items="filter in,filter out" />;
+
+</group>
+
+<![CDATA[
+
+#2.0 R code
+
+#R code for debugging
+#refColumnName <- "parameter"
+#keepColumns <- colnames(kIn1[,1:18])
+#end R code for debugging
+
+#2.1 load libraries
+
+#2.2.1 manage RGG to R: define as numbers
+
+#2.2.2 manage RGG to R: set scales to default and check scales
+
+#2.3 calculate
+allColumns <- colnames(kIn1)
+refColumn <- kIn2[,refColumnName]
+if (filter == "filter in") {
+	outputTable <- kIn1[,colnames(kIn1[,which((allColumns %in% keepColumns) | (allColumns %in% refColumn))])]
+	} else {
+	outputTable <- kIn1[,colnames(kIn1[,which((allColumns %in% keepColumns) | !(allColumns %in% refColumn))])]
+	}
+rOut <- outputTable
+]]>
+
+</rgg>
+#######################################################################################
+# name: Get info from R-server (installed packages, R version, system info)
+# author: Martin Stoeter
+# category: utilities
+# preview: 
+
+This snippet lists the version and packages installed on your R-server.
+a) installed packages and their versions (installed.packages())
+b) libraries/packages that can be loaded (library())
+c) base packages (sessionInfo()["basePkgs"])
+d) R version and platform (sessionInfo()[1])
+e) other packages installed (not always present)
+f) system information (Sys.info())
+######
+
+<rgg>
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+#1.0 Parameter selection
+<group>
+# 1.1 select type of transformation
+getInfo = <combobox items="installed_packages,libraries,base_packages,R_version,other_packages,system_info" label="Select info"/>
+
+</group>
+
+<![CDATA[
+
+#2.0 R code
+rOut <- switch(getInfo,
+	installed_packages = as.data.frame(installed.packages()), libraries = as.data.frame(library()[2]), base_packages = as.data.frame(sessionInfo()["basePkgs"]), R_version = as.data.frame(sessionInfo()[1]), other_packages = as.data.frame(names(sessionInfo()["otherPkgs"][[1]])), system_info = as.data.frame(Sys.info()))
+
+]]>
+</rgg>
+
+########################################################################################
+# name: Reshape to long format
+# category: utilities
+
+Creates a table with a single measurement column and several id columns.
+
+######
+
+library(reshape)
+rOut <- melt(kIn)
+########################################################################################
+# name: Convert numbers to defined text/string
+# author: Antje Niederlein, Martin Stoeter
+# category: utilities
+# preview: 
+
+Converts selected column to a specified number format
+- select column to convert or define flow variable using the format: FLOWVAR(variable name)
+- define digits before and after digit point
+- if minus is checked and negative values are present, an additional digit will be added to make positive and negative values the same length (for sorting good!)
+- if automatic is checked, then number of digits before and after will be calculated from the data 
+- example: [3,2,minus=true]: 5.5 -> 0005.50, -012.125 -> -012.13; [2,3,minus=false] -5.0 -> -05.000, 1234.5678 -> 1234.5678
+######
+
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+#1.0 Parameter selection
+<group>
+
+# 1) select the columns
+<hbox>
+columnHeader = <combobox items="$$$NUM_ATTRIBUTES$$$" label="Selection column" />
+<checkbox label="use flow variable" var="useFlowVar" selected="false" />
+<textfield label="flow variable:" var="flowVariableName" data-type="text" default-value= "" size="10" />
+</hbox>
+
+# 2) select the format
+<hbox>
+<vector label="number of digits before/after decimal point" var="digitVector" size="2" default-value="3,2" vector-type="character"/>
+<checkbox label="handle minus as digit" var="minusDigits" selected="false"/>
+<checkbox label="automatic number of digits" var="autoNumberDigits" selected="false"/>
+</hbox>
+
+<hbox>
+<checkbox label="append column" var="appendColumn" selected="false" />
+<textfield label="add suffix:" var="newColumnSuffix" data-type="text" default-value= ".text" size="10" />
+</hbox>
+
+</group>
+
+<![CDATA[
+
+#2.0 R code
+
+#2.1 load libraries
+
+#2.2.1 manage RGG to R: define as numbers
+digitVector <- as.numeric(digitVector)
+if (useFlowVar && !is.na(flowVariableName)) {
+    	columnHeader <- flowVariableName
+	}
+
+#2.2.2 manage RGG to R: set values to default and check values
+
+#2.3. calculate
+numVec <- kIn[,columnHeader]
+
+sortableNumberString <- function(x, minus = FALSE, leadingWidth = 1, decimalWidth = 2) {
+  decimal <- FALSE
+  if(decimalWidth > 0) decimal <- TRUE
+  
+  width <- leadingWidth + decimalWidth
+  if(decimal) width <- width + 1
+  if(minus) width <- width + 1
+  
+  outChar <- ""
+  if(decimal) {
+    if(minus) outChar <- formatC(x, format = "f", digits = decimalWidth, width = width, flag = "00")
+    else outChar <- formatC(x, format = "f", digits = decimalWidth, width = width, flag = "0")
+  }
+  else {
+    if(minus) outChar <- formatC(x, format = "d", width = width, flag = "00")
+    else outChar <- formatC(x, format = "d", width = width, flag = "0")
+  }
+  outChar
+}
+
+lWidth = 0
+dWidth = 0
+minus <- FALSE
+
+if(minusDigits && min(numVec) < 0) minus <- TRUE
+if(autoNumberDigits) {
+	lWidth <- nchar(as.character(floor(max(abs(numVec)))))
+	splitDec <- strsplit(as.character(numVec),".", fixed = TRUE)
+	decPart <- sapply(splitDec[sapply(splitDec, length) > 1], "[[", 2)
+	dWidth <- max(nchar(decPart))
+	} else {
+	lWidth = digitVector[1]
+	dWidth = digitVector[2]
+	}
+
+charVec <- sapply(numVec, sortableNumberString, minus, lWidth, dWidth)
+if(appendColumn) {
+	kIn <- cbind(kIn,charVec)
+	names(kIn)[ncol(kIn)] <- paste(columnHeader, newColumnSuffix, sep = "")
+	} else {
+	kIn[,columnHeader] <- charVec
+	}  
+#sort(charVec)
+rOut <- kIn
+
+]]>
+
+</rgg>
+######################################################################################
+# name: Z rank transformation (beta)
+# author: Martin Stoeter
+# category: distributions
+# preview: 
+
+This rank-preserving data transformation is a pre-processing technique to stabilize the variance and to make the data more normal distribution-like. The Z rank transformation (project_to_Gaussian) projects the data to a random normal distribution. For each group and each parameter the values are transformed independently.
+- select type of normalization
+- select parameters that should be rank normalized 
+- select a group column that should be used for ranking (e.g. barcode, date, project name,...)
+If subset data is chosen as reference, only this subset data is used to calculate the lambda for the transformation (either a) or b); not possible in Z rank!).
+a) select a column and give name of subset data used as reference 
+b) select subset of column 'treatment' to be used as reference (needs a column with name 'treatment') 
+######
+
+<rgg>
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+#1.0 Parameter selection
+<group>
+# 1.1 select type of transformation
+transformation = <combobox items="Box-Cox,Yeo-Johnson,basic,project_to_Gaussian" label="Power transformation"/>;
+
+# 1.2 select the columns
+selectedParams = match(c(<panellistbox label="Column selection" items="$$$NUM_ATTRIBUTES$$$" visible-row-count="6" span="full"/>), names(kIn));
+
+# 1.3 select group
+groupColumnName = <combobox items="$$$STR_ATTRIBUTES$$$" label="Group column"/>
+
+# 1.4 select subset
+<separator label="Subset data as reference" span="full"/>
+subsetOption = <combobox items="-NO SUBSET - USE ALL DATA IN GROUP!-,a) subset column,b) subset of column 'treatment'" label="Subset column"/>
+<hbox>
+subsetColumn = <combobox items="-NOT USED-,$$$STR_ATTRIBUTES$$$" label="a) Subset column"/>
+<textfield label="subset:" var="subsetName" data-type="text" default-value= "" size="5" />
+</hbox>
+subsetTreatment = <combobox label="b) Subset of column 'treatment'" items="-NOT USED-,$$$DOMAIN('treatment')$$$" />
+
+</group>
+
+<![CDATA[
+#2.0 R code
+
+#2.1 load libraries
+library(car)
+library(alr3)
+library(dplyr)
+
+#ensure randomness
+set.seed( as.integer((as.double(Sys.time())*1000+Sys.getpid()) %% 2^31) )
+
+#2.2.1 manage RGG to R: define as numbers
+
+#2.2.2 manage RGG to R: set values to default and check values
+
+#2.3. calulate
+
+allGroups <- unique(kIn[,groupColumnName])
+table <- tbl_df(kIn) %>% mutate(rowID = row.names(kIn))
+#table <- table %>% filter(Metadata_barcode == "060AZ190218A-man-fixed")
+rOut <- table
+aggregatedGroupData <- head(table,0)
+randomDataTable <- NULL   # data frame to store random normal distributions
+calculateTransformationModel <- TRUE
+debugAndPlot <- FALSE  # set this TRUE for visualization and debugging
+storeRandomDistributionTable <- FALSE
+
+if (transformation == "project_to_Gaussian") {
+  
+  #calc z rank normalization per group
+  for (group in 1:(length(allGroups))) {	
+    # ================================= for each group, (get subset data,) and calculate & store randome distribution ================ 
+    # get name of group
+    curGroup <- allGroups[group]
+    groupData <- table %>% filter(get(groupColumnName) == curGroup)
+    
+    # z rank normalization can be calculated on complete data set (still for each group independently, here = ELSE), or based on a subset of the group (e.g. untreated) and then applied on the complete data set of the group (here = IF) 
+    groupDataModel <- groupData %>% filter(0 > 1)  # initialize table with 0 rows
+    if(subsetOption == "a) subset column") {
+      groupDataModel <- groupData %>% filter(get(subsetColumn) == subsetName)  # get the subset table to calculate the normalization / transformation model data 
+      doApplyOnNormalDistribution <- TRUE
+    }
+    if(subsetOption == "b) subset of column 'treatment'" && subsetTreatment != "-NOT USED-") {
+      subsetColumn <- "treatment"
+      groupDataModel <- groupData %>% filter(get(subsetColumn) == subsetTreatment)  # get the subset table to calculate the normalization / transformation model data 
+      doApplyOnNormalDistribution <- TRUE
+    }
+    if (subsetOption == "-NO SUBSET - USE ALL DATA IN GROUP!-" | nrow(groupDataModel) == 0) {
+      groupDataModel <- groupData   
+      doApplyOnNormalDistribution <- FALSE
+    }
+    
+    # generate data set with random normal distribution that is 100 bigger than the group data set (100 => less random sampling errors)
+    nValues <- nrow(groupDataModel)  # length of model data vector
+    normData <- sort(rnorm(nValues*100, mean = 0, sd = 1))   # random normal distribution is sampled 100-fold more to avoid effects due to random data 
+    
+    # store random distribution in table to export to output and use as model later...
+    if (storeRandomDistributionTable) {
+      if (is.null(randomDataTable)) randomDataTable <- data.frame(cbind(normData))
+      else {
+        if (nrow(randomDataTable) > length(normData)) randomDataTable <- data.frame(cbind(randomDataTable, c(normData, rep(NA,nrow(randomDataTable)-length(normData)))))
+        else {
+          for (fillNA in (nrow(randomDataTable)+1):length(normData)) randomDataTable <- data.frame(rbind(randomDataTable, rep(NA, ncol(randomDataTable))))
+          randomDataTable <- data.frame(cbind(randomDataTable, normData))
+        }
+      }
+      names(randomDataTable)[group] <- levels(curGroup)
+    }  # end of if (storeRandomDistributionTable) 
+    # ================================= for each group, (get subset data,) and calculate & store randome distribution ================ 
+    
+    # iterate through all selected parameter
+    for (param in 1:(length(selectedParams))) {  
+      paramName <- colnames(groupDataModel)[selectedParams[param]]    # get current parameter name
+      groupData$normData <- NA                                        # make column for transformed data and set all values to NA for now
+      if(calculateTransformationModel) {   # xxx is this if variable neccessary?
+        rawValues <- pull(groupDataModel, paramName)
+        rankVals <- as.integer(rank(rawValues))
+        transformedData <- normData[rankVals*100-50]
+        temp <- data.frame(rowID = groupDataModel, values = rawValues, rank = rankVals, normData = transformedData)  # xxx is this needed?
+      } # if
+      
+      if (doApplyOnNormalDistribution) {
+        groupData <- groupData %>% arrange_(paramName)
+        rawValuesGroupDataSorted <- pull(groupData, paramName)
+        i = 1  # varible for iteration through transformation model data
+        j = 1  # varible for iteration through group data
+        rawValuesSorted <- sort(rawValues)   # xxx again sorting? yes, but same variable could be used...
+        transformedData <- sort(transformedData)  # xxx again sorting?
+        
+        #rawValuesSorted <- rawValuesSorted[1:5]
+        intvervalLow <- rawValuesSorted[i]
+        intvervalHigh <- rawValuesSorted[i + 1]
+        intervalHighLow <- intvervalHigh - intvervalLow
+        intervalNormData <- normData[(i+1)*100-50]-normData[i*100-50]
+        intervalTransformedData <- transformedData[i + 1] - transformedData[i]
+        
+        if (debugAndPlot) {  # initialize plot for debugging with first data point
+          plot(x = rawValuesSorted[1], y = transformedData[1], ylim = c(-5,5), xlim = c(rawValuesGroupDataSorted[2],rawValuesGroupDataSorted[length(rawValuesGroupDataSorted)])) # first data: c(rawValuesGroupDataSorted[2],rawValuesGroupDataSorted[20]) ; end of the data: c(rawValuesGroupDataSorted[length(rawValuesGroupDataSorted)-20],rawValuesGroupDataSorted[length(rawValuesGroupDataSorted)])
+          abline(v = intvervalLow, lty = 2, col = "grey")
+        } # debug
+        
+        # find data points that are lower smaller than model data of subset 
+        while (!intvervalLow <= rawValuesGroupDataSorted[j]) j = j + 1
+        
+        if (j > 1) { # apply linear model on this data
+          xData <- rawValuesSorted[1:(length(rawValuesSorted)*0.05)]    # get the lowest 5% of the data for fitting a linear model
+          yData <- transformedData[1:(length(rawValuesSorted)*0.05)]
+          linearModelLow <- lm(yData ~ xData)
+          differenceLastModelDataPoint <- predict.lm(linearModelLow, data.frame(xData = rawValuesGroupDataSorted[j-1])) - transformedData[1]   # to ensure continuity / steadiness of the data a shift correction of the fitted data and the projected data is neccessary
+          groupData$normData[1:(j-1)] <- predict.lm(linearModelLow, data.frame(xData = rawValuesGroupDataSorted[1:(j-1)])) - differenceLastModelDataPoint   
+          if (debugAndPlot) {
+            points(x = xData, y = yData, col = "lightgrey")            # plot the modelled data
+            points(y = groupData$normData[1:(j-1)], x = rawValuesGroupDataSorted[1:(j-1)], col = "darkgrey")  # plot fitted points; j-1 because value of j ist now already bigger/equal intervalLow
+            #print(as.numeric(c(i,j,groupData$normData[1:(j-1)],rawValuesGroupDataSorted[1:(j-1)])))
+            #print(rawValuesSorted[1:10])
+            #print(transformedData[1:10])
+            abline(linearModelLow, col="darkgrey")   # plot line to show linear model
+          } # debug
+        } # apply linear model
+        
+        #print(as.numeric(c( intvervalLow, intvervalHigh,intervalHighLow, intervalNormData, intervalTransformedData)))
+        #print(as.numeric(c(i, intvervalLow, intvervalHigh, intervalHighLow, intervalNormData)))
+        while (i < length(rawValuesSorted) && j <= length(rawValuesGroupDataSorted)) {
+          if(intvervalLow <= rawValuesGroupDataSorted[j] && rawValuesGroupDataSorted[j] <= intvervalHigh) {
+            
+            groupData$normData[j] <- as.numeric(normData[i*100-50] + intervalNormData * (rawValuesGroupDataSorted[j] - intvervalLow) / intervalHighLow)
+            if (debugAndPlot) {
+              points(y = groupData$normData[j],x = rawValuesGroupDataSorted[j], col = (i %% 5) + 1)
+              #if (i < 20) print(as.numeric(c(i,j,groupData$normData[j],rawValuesGroupDataSorted[j])))   # print first 20
+              #if (i > length(rawValuesSorted)-20) print(as.numeric(c(i,j,groupData$normData[j],rawValuesGroupDataSorted[j]))) # print last 20
+            }                 
+            j = j + 1
+          } else {
+            i = i + 1
+            if (i < length(rawValuesSorted)) {
+              intvervalLow <- rawValuesSorted[i]
+              intvervalHigh <- rawValuesSorted[i + 1]
+              intervalHighLow <- intvervalHigh - intvervalLow
+              intervalNormData <- normData[(i+1)*100-50] - normData[i*100-50]
+              if (debugAndPlot) {
+                abline(v = c(intvervalLow), lty = 2, col = (i %% 5) + 1)
+                #if (i < 20) print(as.numeric(c( intvervalLow, intvervalHigh,intervalHighLow))) # print first 20
+                #if (i > length(rawValuesSorted)-20) print(as.numeric(c( intvervalLow, intvervalHigh,intervalHighLow)))  # print last 20
+                #print(as.numeric(c(i, intvervalLow, intvervalHigh, intervalHighLow, intervalNormData)))
+              }  # debug
+            } # if
+          }  # if else
+        }  # while
+        if (debugAndPlot) abline(v = c(intvervalHigh), lty = 2, col = (i %% 5) + 1) # plot last data point / line of modelled subset data
+        
+        #print(as.numeric(c(i,j, length(rawValuesSorted), length(rawValuesGroupDataSorted))))
+        
+        # apply linear model on data that is larger than model data of subset 
+        if (i >= length(rawValuesSorted) && j <= length(rawValuesGroupDataSorted)) {
+          xData <- rawValuesSorted[(length(rawValuesSorted)*0.95):length(rawValuesSorted)]    # get the highest 5% of the data for fitting a linear model
+          yData <- transformedData[(length(rawValuesSorted)*0.95):length(rawValuesSorted)]
+          #print("done")
+          linearModelHigh <- lm(yData ~ xData)
+          differenceLastModelDataPoint <- predict.lm(linearModelHigh, data.frame(xData = rawValuesGroupDataSorted[j])) - transformedData[i]   # to ensure continuity / steadiness of the data a shift correction of the fitted data and the projected data is neccessary
+          groupData$normData[(j):length(rawValuesGroupDataSorted)] <- predict.lm(linearModelHigh, data.frame(xData = rawValuesGroupDataSorted[(j):length(rawValuesGroupDataSorted)])) - differenceLastModelDataPoint   
+          if (debugAndPlot) {
+            #print(tail(rawValuesSorted))
+            #print(tail(transformedData))
+            points(x = xData, y = yData, col = "lightgrey")            # plot the modelled data
+            points(y = groupData$normData[(j):length(rawValuesGroupDataSorted)], x = rawValuesGroupDataSorted[(j):length(rawValuesGroupDataSorted)], col = "darkgrey")  # plot fitted points; j-1 because value of j ist now already bigger/equal intervalLow
+            #print(as.numeric(c(i,j,groupData$normData[(j):length(rawValuesGroupDataSorted)],rawValuesGroupDataSorted[(j):length(rawValuesGroupDataSorted)]))) 
+            abline(linearModelHigh, col="darkgrey")   # plot line to show linear model
+          }  # debug
+        }  # if
+      } else { # if (doApplyOnNormalDistribution)
+        groupData$normData <- transformedData  # if groupDataModel = groupData, then just put transformed data into table
+      }
+      names(groupData)[ncol(groupData)] <- paste(paramName, '.zrank', sep = "") #project_to_Gaussian, rename current column name to .zrank
+    }  # for (param in 1:(length(selectedParams)))
+    aggregatedGroupData <- bind_rows(aggregatedGroupData, groupData)
+  }  # for (group in 1:(length(allGroups)))
+  rOut <- rOut %>% left_join(select(aggregatedGroupData, c("rowID",tail(names(aggregatedGroupData),length(selectedParams)))), by="rowID") %>% select(-one_of(c("rowID")))
+  rOut <- as.data.frame(rOut)
+  row.names(rOut) <- row.names(kIn)
+} #  if (transformation == "project_to_Gaussian") 
+#print("done all loops")
+
+
+if (storeRandomDistributionTable) {
+  randomDataTable <- cbind(randomDataTable, rank = row.names(randomDataTable))
+  rSave <- rOut
+  
+  if(nrow(rOut) < nrow(randomDataTable)) {
+    rOut <- cbind(rOut, rowNames = row.names(rOut))
+    for (fillNA in (nrow(rOut)+1):nrow(randomDataTable)) rOut <- data.frame(rbind(rOut, rep(NA, ncol(rOut))))
+    rOut <- data.frame(cbind(rOut, randomDataTable))
+  }
+}
+
+
+]]>
+</rgg>
+
+######################################################################################
+# name: Uniform Manifold Approximation and Projection (UMAP)
+# author: Martin Stoeter
+# category: dimension_reduction
+# preview: 
+
+Uniform Manifold Approximation and Projection (UMAP) is an algorithm for dimensional reduction. Originally describer here: https://arxiv.org/abs/1802.03426
+This template uses R package 'umap'. More details here: https://cran.r-project.org/web/packages/umap/vignettes/umap.html 
+######
+
+<rgg>
+
+<!--1. Title and short description -->
+
+<h3 text="$$$TEMPLATE_NAME$$$" aligment="center" span="full"/>
+<separator label="Description" span="full"/>
+<labelarea span="full">$$$TEMPLATE_DESC$$$</labelarea>
+<gaprow height="1"/>
+
+<!-- 2. Configuration-->
+
+<separator label="Options" span="full"/>
+<gaprow height="2"/>
+
+# 1. Parameter selection
+
+<group>
+# 1) select parameters for UMAP calculation
+paramName = c(<panellistbox label="Parameters for correlation" items="$$$NUM_ATTRIBUTES$$$" span="full"/>);
+
+# 2) UMAP configuration
+<gaprow height="1"/>
+<separator label="UMAP Configuration Options" span="full"/>
+<gaprow height="1"/>
+<hbox>
+<vector label="Number of neighbors:" var="UMAPneighbors" size="1" default-value="15" vector-type="numeric"/>
+<vector label="UMAP dimensions:" var="UMAPdimension" size="1" default-value="2" vector-type="numeric"/>
+<combobox label="UMAP metric" var="UMAPmetric" items="euclidean, cosine, pearson, pearson" />
+<vector label="Minimum distance" var="UMAPmin_dist" size="1" default-value="0.1" vector-type="numeric"/>
+</hbox>
+<hbox>
+<checkbox label="Random seed" var="useRandomSeed" selected="true"/>
+<vector label="Random state:" var="UMAPrandom_state" size="1" default-value="42" vector-type="numeric"/>
+</hbox>
+
+</group>
+
+<![CDATA[
+
+#2.0 R code
+	
+#2.1 load libraries
+library(umap)
+
+#2.2.1 manage RGG to R: define as numbers
+
+#2.2.2 manage RGG to R: set values to default and check values
+#set configuration for UMAP
+if (useRandomSeed) UMAPrandom_state <- NA
+custom.config = umap.defaults
+custom.config$n_neighbors = as.numeric(UMAPneighbors)     # default: 15
+custom.config$n_components = as.numeric(UMAPdimension)    # default: 2
+custom.config$metric = UMAPmetric                         # default: euclidean
+custom.config$min_dist = as.numeric(UMAPmin_dist)         # defalut: 0.1
+custom.config$random_state = as.numeric(UMAPrandom_state) # default: NA
+
+#make names for UMAP dimension columns
+UMAPcolNames <- paste0('UMAP', 1:UMAPdimensions)
+
+#2.3. calculate
+#use only the data of the selected parameters
+kIn.data <- kIn[paramName]
+
+#do UMAP transformation
+kIn.umap.config <- umap(kIn.data, config=custom.config)   # calc UMAP with custom configuration
+colnames(kIn.umap.config$layout) <- UMAPcolNames
+
+#attach UMAP dimensions to input table
+rOut <- cbind(kIn, kIn.umap.config$layout)
+
+]]>
+
+</rgg>

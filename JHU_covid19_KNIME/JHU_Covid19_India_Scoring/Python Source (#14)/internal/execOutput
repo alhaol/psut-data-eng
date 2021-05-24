@@ -1,0 +1,5 @@
+['table2', 'users2020', 'india_scoring_notscaled_report', 'india_scoring_report']
+   Confirmed    Deaths  Recovered    Active  Incident_Rate  Case_Fatality_Ratio
+0   0.000000  0.000000   0.000000  0.378714       0.000000             0.640908
+1   0.008058  0.005203   0.006386  0.394239       0.008058             0.613050
+2   0.016902  0.010531   0.013919  0.406386       0.016902             0.579571

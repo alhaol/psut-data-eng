@@ -1,0 +1,3 @@
+C:\Users\Ibrahim\OneDrive - psut.edu.jo\Desktop\psut-data-eng\JHU_covid19_KNIME\JHU_Covid19_India_Scoring\output\India_scoring_report_beforeScale.csv
+C:\Users\Ibrahim\OneDrive - psut.edu.jo\Desktop\psut-data-eng\JHU_covid19_KNIME\JHU_Covid19_India_Scoring\output\India_scoring_report_bafterScale.csv
+C:\Users\Ibrahim\OneDrive - psut.edu.jo\Desktop\psut-data-eng\JHU_covid19_KNIME\JHU_Covid19_India_Scoring\output\India_scoring_report.csv

@@ -1,0 +1,139 @@
+
+{
+    "version": "4.3.1.v202101261633",
+    "created": "2021-05-23 21:13",
+    "nodestats": {
+        "nodes": [
+            {
+                "id": "org.knime.python2.nodes.source.Python2SourceNodeFactory#Python Source",
+                "nrexecs": 5,
+                "nrfails": 12,
+                "exectime": 584598,
+                "nrcreated": 2,
+                "successor": "org.knime.js.base.node.viz.pagedTable.PagedTableViewNodeFactory#Table View"
+            },
+            {
+                "id": "de.mpicbg.knime.scripting.python.v2.node.source.PythonSourceV2NodeFactory#Python Source",
+                "nrexecs": 0,
+                "nrfails": 1,
+                "exectime": 236,
+                "nrcreated": 1,
+                "successor": "n/a"
+            },
+            {
+                "id": "org.knime.python2.nodes.script2.Python2ScriptNodeFactory2#Python Script",
+                "nrexecs": 15,
+                "nrfails": 1,
+                "exectime": 18267,
+                "nrcreated": 3,
+                "successor": "org.knime.python2.nodes.script2.Python2ScriptNodeFactory2#Python Script"
+            },
+            {
+                "id": "org.knime.js.base.node.viz.plotter.line.LinePlotNodeFactory#Line Plot",
+                "nrexecs": 1,
+                "nrfails": 0,
+                "exectime": 59,
+                "nrcreated": 1,
+                "successor": "n/a"
+            },
+            {
+                "id": "org.knime.dynamic.js.v30.DynamicJSNodeFactory#Parallel Coordinates Plot",
+                "nrexecs": 1,
+                "nrfails": 0,
+                "exectime": 59,
+                "nrcreated": 1,
+                "successor": "n/a"
+            },
+            {
+                "id": "org.knime.base.node.viz.plotter.line.LinePlotterNodeFactory#Line Plot (local)",
+                "nrexecs": 7,
+                "nrfails": 0,
+                "exectime": 19,
+                "nrcreated": 1,
+                "successor": "n/a"
+            },
+            {
+                "id": "org.knime.base.node.viz.plotter.box.BoxPlotNodeFactory#Box Plot (local)",
+                "nrexecs": 4,
+                "nrfails": 0,
+                "exectime": 121,
+                "nrcreated": 1,
+                "successor": "n/a"
+            },
+            {
+                "id": "org.knime.base.node.io.filehandling.csv.writer.CSVWriter2NodeFactory#CSV Writer",
+                "nrexecs": 8,
+                "nrfails": 0,
+                "exectime": 95,
+                "nrcreated": 1,
+                "successor": "n/a"
+            },
+            {
+                "id": "org.knime.database.extension.postgres.node.connector.PostgreSQLDBConnectorNodeFactory#PostgreSQL Connector",
+                "nrexecs": 0,
+                "nrfails": 0,
+                "exectime": 0,
+                "nrcreated": 2,
+                "successor": "n/a"
+            },
+            {
+                "id": "org.knime.database.connectors.postgresql.PostgreSQLConnectorNodeFactory#PostgreSQL Connector (legacy)",
+                "nrexecs": 0,
+                "nrfails": 0,
+                "exectime": 0,
+                "nrcreated": 1,
+                "successor": "n/a"
+            },
+            {
+                "id": "org.knime.python2.nodes.view.Python2ViewNodeFactory#Python View",
+                "nrexecs": 4,
+                "nrfails": 0,
+                "exectime": 4057,
+                "nrcreated": 2,
+                "successor": "n/a"
+            },
+            {
+                "id": "org.knime.ext.birt.nodes.io.filehandling.pdf.PdfReport2NodeFactory#Table to PDF",
+                "nrexecs": 3,
+                "nrfails": 0,
+                "exectime": 7967,
+                "nrcreated": 1,
+                "successor": "n/a"
+            },
+            {
+                "id": "org.knime.js.base.node.viz.pagedTable.PagedTableViewNodeFactory#Table View",
+                "nrexecs": 2,
+                "nrfails": 0,
+                "exectime": 48,
+                "nrcreated": 2,
+                "successor": "n/a"
+            },
+            {
+                "id": "org.knime.core.node.workflow.virtual.subnode.VirtualSubNodeInputNodeFactory#Component Input",
+                "nrexecs": 2,
+                "nrfails": 0,
+                "exectime": 5,
+                "nrcreated": 0,
+                "successor": "n/a"
+            }
+        ],
+        "metaNodes": {
+        },
+        "wrappedNodes": {
+            "nrexecs": 0,
+            "nrfails": 2,
+            "exectime": 74692,
+            "nrcreated": 0
+        }
+    },
+    "uptime": 2882740,
+    "workflowsOpened": 2,
+    "remoteWorkflowsOpened": 0,
+    "workflowsImported": 0,
+    "workflowsExported": 0,
+    "launches": 3,
+    "lastApplicationID": "org.knime.product.KNIME_APPLICATION",
+    "timeSinceLastStart": 59897,
+    "crashes": 0,
+    "properlyShutDown": true
+}

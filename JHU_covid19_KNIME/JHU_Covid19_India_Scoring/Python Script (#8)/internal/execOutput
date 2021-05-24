@@ -1,0 +1,6 @@
+      Confirmed    Deaths  ...  Incident_Rate  Case_Fatality_Ratio
+Row0   0.000000  0.000000  ...       0.000000             0.640908
+Row1   0.008058  0.005203  ...       0.008058             0.613050
+Row2   0.016902  0.010531  ...       0.016902             0.579571
+
+[3 rows x 6 columns]

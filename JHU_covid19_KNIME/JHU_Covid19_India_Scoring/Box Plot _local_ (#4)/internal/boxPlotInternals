@@ -1,0 +1,1468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://www.knime.org/2008/09/XMLConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knime.org/2008/09/XMLConfig http://www.knime.org/XMLConfig_2008_09.xsd" key="boxPlotInternals">
+<entry key="numberOf" type="xint" value="6"/>
+<config key="colSpec0">
+<entry key="column_name" type="xstring" value="Confirmed"/>
+<config key="element_names">
+<entry key="array-size" type="xint" value="0"/>
+</config>
+<config key="column_type">
+<entry key="cell_class" type="xstring" value="org.knime.core.data.def.IntCell"/>
+</config>
+<config key="column_domain">
+<config key="lower_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.IntCell"/>
+<config key="org.knime.core.data.def.IntCell">
+<entry key="IntCell" type="xint" value="443552"/>
+</config>
+</config>
+<config key="upper_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.IntCell"/>
+<config key="org.knime.core.data.def.IntCell">
+<entry key="IntCell" type="xint" value="1415219"/>
+</config>
+</config>
+</config>
+<config key="column_properties"/>
+<config key="meta_data"/>
+</config>
+<config key="colSpec1">
+<entry key="column_name" type="xstring" value="Deaths"/>
+<config key="element_names">
+<entry key="array-size" type="xint" value="0"/>
+</config>
+<config key="column_type">
+<entry key="cell_class" type="xstring" value="org.knime.core.data.def.IntCell"/>
+</config>
+<config key="column_domain">
+<config key="lower_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.IntCell"/>
+<config key="org.knime.core.data.def.IntCell">
+<entry key="IntCell" type="xint" value="7060"/>
+</config>
+</config>
+<config key="upper_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.IntCell"/>
+<config key="org.knime.core.data.def.IntCell">
+<entry key="IntCell" type="xint" value="23013"/>
+</config>
+</config>
+</config>
+<config key="column_properties"/>
+<config key="meta_data"/>
+</config>
+<config key="colSpec2">
+<entry key="column_name" type="xstring" value="Recovered"/>
+<config key="element_names">
+<entry key="array-size" type="xint" value="0"/>
+</config>
+<config key="column_type">
+<entry key="cell_class" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+</config>
+<config key="column_domain">
+<config key="lower_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+<config key="org.knime.core.data.def.DoubleCell">
+<entry key="DoubleCell" type="xdouble" value="396697.0"/>
+</config>
+</config>
+<config key="upper_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+<config key="org.knime.core.data.def.DoubleCell">
+<entry key="DoubleCell" type="xdouble" value="1360898.0"/>
+</config>
+</config>
+</config>
+<config key="column_properties"/>
+<config key="meta_data"/>
+</config>
+<config key="colSpec3">
+<entry key="column_name" type="xstring" value="Active"/>
+<config key="element_names">
+<entry key="array-size" type="xint" value="0"/>
+</config>
+<config key="column_type">
+<entry key="cell_class" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+</config>
+<config key="column_domain">
+<config key="lower_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+<config key="org.knime.core.data.def.DoubleCell">
+<entry key="DoubleCell" type="xdouble" value="1009.0"/>
+</config>
+</config>
+<config key="upper_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+<config key="org.knime.core.data.def.DoubleCell">
+<entry key="DoubleCell" type="xdouble" value="103424.0"/>
+</config>
+</config>
+</config>
+<config key="column_properties"/>
+<config key="meta_data"/>
+</config>
+<config key="colSpec4">
+<entry key="column_name" type="xstring" value="Incident_Rate"/>
+<config key="element_names">
+<entry key="array-size" type="xint" value="0"/>
+</config>
+<config key="column_type">
+<entry key="cell_class" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+</config>
+<config key="column_domain">
+<config key="lower_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+<config key="org.knime.core.data.def.DoubleCell">
+<entry key="DoubleCell" type="xdouble" value="2370.551274811578"/>
+</config>
+</config>
+<config key="upper_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+<config key="org.knime.core.data.def.DoubleCell">
+<entry key="DoubleCell" type="xdouble" value="7563.5984159412355"/>
+</config>
+</config>
+</config>
+<config key="column_properties"/>
+<config key="meta_data"/>
+</config>
+<config key="colSpec5">
+<entry key="column_name" type="xstring" value="Case_Fatality_Ratio"/>
+<config key="element_names">
+<entry key="array-size" type="xint" value="0"/>
+</config>
+<config key="column_type">
+<entry key="cell_class" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+</config>
+<config key="column_domain">
+<config key="lower_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+<config key="org.knime.core.data.def.DoubleCell">
+<entry key="DoubleCell" type="xdouble" value="1.37951875258797"/>
+</config>
+</config>
+<config key="upper_bound">
+<entry key="datacell" type="xstring" value="org.knime.core.data.def.DoubleCell"/>
+<config key="org.knime.core.data.def.DoubleCell">
+<entry key="DoubleCell" type="xdouble" value="1.7105759557344065"/>
+</config>
+</config>
+</config>
+<config key="column_properties"/>
+<config key="meta_data"/>
+</config>
+<config key="statsConfirmed">
+<entry key="array-size" type="xint" value="7"/>
+<entry key="0" type="xdouble" value="443552.0"/>
+<entry key="1" type="xdouble" value="545787.0"/>
+<entry key="2" type="xdouble" value="622851.0"/>
+<entry key="3" type="xdouble" value="636946.0"/>
+<entry key="4" type="xdouble" value="676414.0"/>
+<entry key="5" type="xdouble" value="750156.0"/>
+<entry key="6" type="xdouble" value="1415219.0"/>
+</config>
+<config key="mildrowConfirmed">
+<config key="mildrowConfirmed0">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row3"/>
+</config>
+<config key="mildrowConfirmed1">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row4"/>
+</config>
+<config key="mildrowConfirmed2">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row5"/>
+</config>
+<config key="mildrowConfirmed3">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row6"/>
+</config>
+<config key="mildrowConfirmed4">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row7"/>
+</config>
+<config key="mildrowConfirmed5">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row8"/>
+</config>
+<config key="mildrowConfirmed6">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row9"/>
+</config>
+<config key="mildrowConfirmed7">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row10"/>
+</config>
+<config key="mildrowConfirmed8">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row11"/>
+</config>
+<config key="mildrowConfirmed9">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row12"/>
+</config>
+<config key="mildrowConfirmed10">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row13"/>
+</config>
+<config key="mildrowConfirmed11">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row14"/>
+</config>
+<config key="mildrowConfirmed12">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row15"/>
+</config>
+<config key="mildrowConfirmed13">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row156"/>
+</config>
+<config key="mildrowConfirmed14">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row157"/>
+</config>
+<config key="mildrowConfirmed15">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row158"/>
+</config>
+<config key="mildrowConfirmed16">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row159"/>
+</config>
+</config>
+<config key="mildConfirmed">
+<entry key="array-size" type="xint" value="17"/>
+<entry key="0" type="xdouble" value="467028.0"/>
+<entry key="1" type="xdouble" value="474830.0"/>
+<entry key="2" type="xdouble" value="482170.0"/>
+<entry key="3" type="xdouble" value="485405.0"/>
+<entry key="4" type="xdouble" value="489202.0"/>
+<entry key="5" type="xdouble" value="495598.0"/>
+<entry key="6" type="xdouble" value="503084.0"/>
+<entry key="7" type="xdouble" value="510630.0"/>
+<entry key="8" type="xdouble" value="517238.0"/>
+<entry key="9" type="xdouble" value="523117.0"/>
+<entry key="10" type="xdouble" value="529863.0"/>
+<entry key="11" type="xdouble" value="534317.0"/>
+<entry key="12" type="xdouble" value="540541.0"/>
+<entry key="13" type="xdouble" value="767438.0"/>
+<entry key="14" type="xdouble" value="784137.0"/>
+<entry key="15" type="xdouble" value="803623.0"/>
+<entry key="16" type="xdouble" value="827998.0"/>
+</config>
+<config key="extremerowConfirmed">
+<config key="extremerowConfirmed0">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row0"/>
+</config>
+<config key="extremerowConfirmed1">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row1"/>
+</config>
+<config key="extremerowConfirmed2">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row2"/>
+</config>
+<config key="extremerowConfirmed3">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row160"/>
+</config>
+<config key="extremerowConfirmed4">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row161"/>
+</config>
+<config key="extremerowConfirmed5">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row162"/>
+</config>
+<config key="extremerowConfirmed6">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row163"/>
+</config>
+<config key="extremerowConfirmed7">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row164"/>
+</config>
+<config key="extremerowConfirmed8">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row165"/>
+</config>
+<config key="extremerowConfirmed9">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row166"/>
+</config>
+<config key="extremerowConfirmed10">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row167"/>
+</config>
+<config key="extremerowConfirmed11">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row168"/>
+</config>
+<config key="extremerowConfirmed12">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row169"/>
+</config>
+<config key="extremerowConfirmed13">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row170"/>
+</config>
+<config key="extremerowConfirmed14">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row171"/>
+</config>
+<config key="extremerowConfirmed15">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row172"/>
+</config>
+<config key="extremerowConfirmed16">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row173"/>
+</config>
+<config key="extremerowConfirmed17">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row174"/>
+</config>
+<config key="extremerowConfirmed18">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row175"/>
+</config>
+<config key="extremerowConfirmed19">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row176"/>
+</config>
+<config key="extremerowConfirmed20">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row177"/>
+</config>
+<config key="extremerowConfirmed21">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row178"/>
+</config>
+<config key="extremerowConfirmed22">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row179"/>
+</config>
+<config key="extremerowConfirmed23">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row180"/>
+</config>
+<config key="extremerowConfirmed24">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row181"/>
+</config>
+<config key="extremerowConfirmed25">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row182"/>
+</config>
+<config key="extremerowConfirmed26">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row183"/>
+</config>
+<config key="extremerowConfirmed27">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row184"/>
+</config>
+<config key="extremerowConfirmed28">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row185"/>
+</config>
+<config key="extremerowConfirmed29">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row186"/>
+</config>
+<config key="extremerowConfirmed30">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row187"/>
+</config>
+<config key="extremerowConfirmed31">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row188"/>
+</config>
+<config key="extremerowConfirmed32">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row189"/>
+</config>
+<config key="extremerowConfirmed33">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row190"/>
+</config>
+<config key="extremerowConfirmed34">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row191"/>
+</config>
+<config key="extremerowConfirmed35">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row192"/>
+</config>
+<config key="extremerowConfirmed36">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row193"/>
+</config>
+<config key="extremerowConfirmed37">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row194"/>
+</config>
+</config>
+<config key="extremeConfirmed">
+<entry key="array-size" type="xint" value="38"/>
+<entry key="0" type="xdouble" value="443552.0"/>
+<entry key="1" type="xdouble" value="451382.0"/>
+<entry key="2" type="xdouble" value="459975.0"/>
+<entry key="3" type="xdouble" value="853460.0"/>
+<entry key="4" type="xdouble" value="877146.0"/>
+<entry key="5" type="xdouble" value="905541.0"/>
+<entry key="6" type="xdouble" value="930179.0"/>
+<entry key="7" type="xdouble" value="956348.0"/>
+<entry key="8" type="xdouble" value="980679.0"/>
+<entry key="9" type="xdouble" value="1004782.0"/>
+<entry key="10" type="xdouble" value="1027715.0"/>
+<entry key="11" type="xdouble" value="1047916.0"/>
+<entry key="12" type="xdouble" value="1072065.0"/>
+<entry key="13" type="xdouble" value="1098051.0"/>
+<entry key="14" type="xdouble" value="1122286.0"/>
+<entry key="15" type="xdouble" value="1149333.0"/>
+<entry key="16" type="xdouble" value="1174552.0"/>
+<entry key="17" type="xdouble" value="1194946.0"/>
+<entry key="18" type="xdouble" value="1212989.0"/>
+<entry key="19" type="xdouble" value="1232942.0"/>
+<entry key="20" type="xdouble" value="1253902.0"/>
+<entry key="21" type="xdouble" value="1273035.0"/>
+<entry key="22" type="xdouble" value="1292867.0"/>
+<entry key="23" type="xdouble" value="1310231.0"/>
+<entry key="24" type="xdouble" value="1323567.0"/>
+<entry key="25" type="xdouble" value="1336218.0"/>
+<entry key="26" type="xdouble" value="1348699.0"/>
+<entry key="27" type="xdouble" value="1361986.0"/>
+<entry key="28" type="xdouble" value="1372475.0"/>
+<entry key="29" type="xdouble" value="1380981.0"/>
+<entry key="30" type="xdouble" value="1387411.0"/>
+<entry key="31" type="xdouble" value="1393867.0"/>
+<entry key="32" type="xdouble" value="1398391.0"/>
+<entry key="33" type="xdouble" value="1402873.0"/>
+<entry key="34" type="xdouble" value="1406719.0"/>
+<entry key="35" type="xdouble" value="1409950.0"/>
+<entry key="36" type="xdouble" value="1412959.0"/>
+<entry key="37" type="xdouble" value="1415219.0"/>
+</config>
+<config key="statsDeaths">
+<entry key="array-size" type="xint" value="7"/>
+<entry key="0" type="xdouble" value="7060.0"/>
+<entry key="1" type="xdouble" value="9574.0"/>
+<entry key="2" type="xdouble" value="10453.0"/>
+<entry key="3" type="xdouble" value="10891.0"/>
+<entry key="4" type="xdouble" value="11081.0"/>
+<entry key="5" type="xdouble" value="11960.0"/>
+<entry key="6" type="xdouble" value="23013.0"/>
+</config>
+<config key="mildrowDeaths">
+<config key="mildrowDeaths0">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row15"/>
+</config>
+<config key="mildrowDeaths1">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row16"/>
+</config>
+<config key="mildrowDeaths2">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row17"/>
+</config>
+<config key="mildrowDeaths3">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row18"/>
+</config>
+<config key="mildrowDeaths4">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row19"/>
+</config>
+<config key="mildrowDeaths5">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row20"/>
+</config>
+<config key="mildrowDeaths6">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row21"/>
+</config>
+<config key="mildrowDeaths7">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row22"/>
+</config>
+<config key="mildrowDeaths8">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row23"/>
+</config>
+<config key="mildrowDeaths9">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row24"/>
+</config>
+<config key="mildrowDeaths10">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row25"/>
+</config>
+<config key="mildrowDeaths11">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row160"/>
+</config>
+<config key="mildrowDeaths12">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row161"/>
+</config>
+<config key="mildrowDeaths13">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row162"/>
+</config>
+<config key="mildrowDeaths14">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row163"/>
+</config>
+</config>
+<config key="mildDeaths">
+<entry key="array-size" type="xint" value="15"/>
+<entry key="0" type="xdouble" value="8621.0"/>
+<entry key="1" type="xdouble" value="8720.0"/>
+<entry key="2" type="xdouble" value="8811.0"/>
+<entry key="3" type="xdouble" value="8909.0"/>
+<entry key="4" type="xdouble" value="8998.0"/>
+<entry key="5" type="xdouble" value="9066.0"/>
+<entry key="6" type="xdouble" value="9174.0"/>
+<entry key="7" type="xdouble" value="9260.0"/>
+<entry key="8" type="xdouble" value="9342.0"/>
+<entry key="9" type="xdouble" value="9424.0"/>
+<entry key="10" type="xdouble" value="9497.0"/>
+<entry key="11" type="xdouble" value="12121.0"/>
+<entry key="12" type="xdouble" value="12361.0"/>
+<entry key="13" type="xdouble" value="12638.0"/>
+<entry key="14" type="xdouble" value="12887.0"/>
+</config>
+<config key="extremerowDeaths">
+<config key="extremerowDeaths0">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row0"/>
+</config>
+<config key="extremerowDeaths1">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row1"/>
+</config>
+<config key="extremerowDeaths2">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row2"/>
+</config>
+<config key="extremerowDeaths3">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row3"/>
+</config>
+<config key="extremerowDeaths4">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row4"/>
+</config>
+<config key="extremerowDeaths5">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row5"/>
+</config>
+<config key="extremerowDeaths6">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row6"/>
+</config>
+<config key="extremerowDeaths7">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row7"/>
+</config>
+<config key="extremerowDeaths8">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row8"/>
+</config>
+<config key="extremerowDeaths9">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row9"/>
+</config>
+<config key="extremerowDeaths10">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row10"/>
+</config>
+<config key="extremerowDeaths11">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row11"/>
+</config>
+<config key="extremerowDeaths12">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row12"/>
+</config>
+<config key="extremerowDeaths13">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row13"/>
+</config>
+<config key="extremerowDeaths14">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row14"/>
+</config>
+<config key="extremerowDeaths15">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row164"/>
+</config>
+<config key="extremerowDeaths16">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row165"/>
+</config>
+<config key="extremerowDeaths17">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row166"/>
+</config>
+<config key="extremerowDeaths18">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row167"/>
+</config>
+<config key="extremerowDeaths19">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row168"/>
+</config>
+<config key="extremerowDeaths20">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row169"/>
+</config>
+<config key="extremerowDeaths21">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row170"/>
+</config>
+<config key="extremerowDeaths22">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row171"/>
+</config>
+<config key="extremerowDeaths23">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row172"/>
+</config>
+<config key="extremerowDeaths24">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row173"/>
+</config>
+<config key="extremerowDeaths25">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row174"/>
+</config>
+<config key="extremerowDeaths26">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row175"/>
+</config>
+<config key="extremerowDeaths27">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row176"/>
+</config>
+<config key="extremerowDeaths28">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row177"/>
+</config>
+<config key="extremerowDeaths29">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row178"/>
+</config>
+<config key="extremerowDeaths30">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row179"/>
+</config>
+<config key="extremerowDeaths31">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row180"/>
+</config>
+<config key="extremerowDeaths32">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row181"/>
+</config>
+<config key="extremerowDeaths33">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row182"/>
+</config>
+<config key="extremerowDeaths34">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row183"/>
+</config>
+<config key="extremerowDeaths35">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row184"/>
+</config>
+<config key="extremerowDeaths36">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row185"/>
+</config>
+<config key="extremerowDeaths37">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row186"/>
+</config>
+<config key="extremerowDeaths38">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row187"/>
+</config>
+<config key="extremerowDeaths39">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row188"/>
+</config>
+<config key="extremerowDeaths40">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row189"/>
+</config>
+<config key="extremerowDeaths41">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row190"/>
+</config>
+<config key="extremerowDeaths42">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row191"/>
+</config>
+<config key="extremerowDeaths43">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row192"/>
+</config>
+<config key="extremerowDeaths44">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row193"/>
+</config>
+<config key="extremerowDeaths45">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row194"/>
+</config>
+</config>
+<config key="extremeDeaths">
+<entry key="array-size" type="xint" value="46"/>
+<entry key="0" type="xdouble" value="7060.0"/>
+<entry key="1" type="xdouble" value="7143.0"/>
+<entry key="2" type="xdouble" value="7228.0"/>
+<entry key="3" type="xdouble" value="7332.0"/>
+<entry key="4" type="xdouble" value="7423.0"/>
+<entry key="5" type="xdouble" value="7519.0"/>
+<entry key="6" type="xdouble" value="7614.0"/>
+<entry key="7" type="xdouble" value="7713.0"/>
+<entry key="8" type="xdouble" value="7812.0"/>
+<entry key="9" type="xdouble" value="7943.0"/>
+<entry key="10" type="xdouble" value="8041.0"/>
+<entry key="11" type="xdouble" value="8159.0"/>
+<entry key="12" type="xdouble" value="8270.0"/>
+<entry key="13" type="xdouble" value="8391.0"/>
+<entry key="14" type="xdouble" value="8512.0"/>
+<entry key="15" type="xdouble" value="13193.0"/>
+<entry key="16" type="xdouble" value="13541.0"/>
+<entry key="17" type="xdouble" value="13898.0"/>
+<entry key="18" type="xdouble" value="14248.0"/>
+<entry key="19" type="xdouble" value="14628.0"/>
+<entry key="20" type="xdouble" value="15009.0"/>
+<entry key="21" type="xdouble" value="15377.0"/>
+<entry key="22" type="xdouble" value="15772.0"/>
+<entry key="23" type="xdouble" value="16147.0"/>
+<entry key="24" type="xdouble" value="16559.0"/>
+<entry key="25" type="xdouble" value="16966.0"/>
+<entry key="26" type="xdouble" value="17414.0"/>
+<entry key="27" type="xdouble" value="17752.0"/>
+<entry key="28" type="xdouble" value="18063.0"/>
+<entry key="29" type="xdouble" value="18398.0"/>
+<entry key="30" type="xdouble" value="18739.0"/>
+<entry key="31" type="xdouble" value="19071.0"/>
+<entry key="32" type="xdouble" value="19344.0"/>
+<entry key="33" type="xdouble" value="19663.0"/>
+<entry key="34" type="xdouble" value="20010.0"/>
+<entry key="35" type="xdouble" value="20310.0"/>
+<entry key="36" type="xdouble" value="20618.0"/>
+<entry key="37" type="xdouble" value="20907.0"/>
+<entry key="38" type="xdouble" value="21244.0"/>
+<entry key="39" type="xdouble" value="21506.0"/>
+<entry key="40" type="xdouble" value="21846.0"/>
+<entry key="41" type="xdouble" value="22111.0"/>
+<entry key="42" type="xdouble" value="22346.0"/>
+<entry key="43" type="xdouble" value="22579.0"/>
+<entry key="44" type="xdouble" value="22831.0"/>
+<entry key="45" type="xdouble" value="23013.0"/>
+</config>
+<config key="statsRecovered">
+<entry key="array-size" type="xint" value="7"/>
+<entry key="0" type="xdouble" value="396697.0"/>
+<entry key="1" type="xdouble" value="538680.0"/>
+<entry key="2" type="xdouble" value="605685.0"/>
+<entry key="3" type="xdouble" value="625024.0"/>
+<entry key="4" type="xdouble" value="651351.0"/>
+<entry key="5" type="xdouble" value="718176.0"/>
+<entry key="6" type="xdouble" value="1360898.0"/>
+</config>
+<config key="mildrowRecovered">
+<config key="mildrowRecovered0">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row12"/>
+</config>
+<config key="mildrowRecovered1">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row13"/>
+</config>
+<config key="mildrowRecovered2">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row14"/>
+</config>
+<config key="mildrowRecovered3">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row15"/>
+</config>
+<config key="mildrowRecovered4">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row16"/>
+</config>
+<config key="mildrowRecovered5">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row17"/>
+</config>
+<config key="mildrowRecovered6">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row18"/>
+</config>
+<config key="mildrowRecovered7">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row19"/>
+</config>
+<config key="mildrowRecovered8">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row20"/>
+</config>
+<config key="mildrowRecovered9">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row21"/>
+</config>
+<config key="mildrowRecovered10">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row22"/>
+</config>
+<config key="mildrowRecovered11">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row158"/>
+</config>
+<config key="mildrowRecovered12">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row159"/>
+</config>
+<config key="mildrowRecovered13">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row160"/>
+</config>
+<config key="mildrowRecovered14">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row161"/>
+</config>
+</config>
+<config key="mildRecovered">
+<entry key="array-size" type="xint" value="15"/>
+<entry key="0" type="xdouble" value="475106.0"/>
+<entry key="1" type="xdouble" value="481260.0"/>
+<entry key="2" type="xdouble" value="488476.0"/>
+<entry key="3" type="xdouble" value="493419.0"/>
+<entry key="4" type="xdouble" value="498780.0"/>
+<entry key="5" type="xdouble" value="503717.0"/>
+<entry key="6" type="xdouble" value="509654.0"/>
+<entry key="7" type="xdouble" value="516166.0"/>
+<entry key="8" type="xdouble" value="522491.0"/>
+<entry key="9" type="xdouble" value="528315.0"/>
+<entry key="10" type="xdouble" value="533351.0"/>
+<entry key="11" type="xdouble" value="730825.0"/>
+<entry key="12" type="xdouble" value="746239.0"/>
+<entry key="13" type="xdouble" value="766398.0"/>
+<entry key="14" type="xdouble" value="787898.0"/>
+</config>
+<config key="extremerowRecovered">
+<config key="extremerowRecovered0">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row0"/>
+</config>
+<config key="extremerowRecovered1">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row1"/>
+</config>
+<config key="extremerowRecovered2">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row2"/>
+</config>
+<config key="extremerowRecovered3">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row3"/>
+</config>
+<config key="extremerowRecovered4">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row4"/>
+</config>
+<config key="extremerowRecovered5">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row5"/>
+</config>
+<config key="extremerowRecovered6">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row6"/>
+</config>
+<config key="extremerowRecovered7">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row7"/>
+</config>
+<config key="extremerowRecovered8">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row8"/>
+</config>
+<config key="extremerowRecovered9">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row9"/>
+</config>
+<config key="extremerowRecovered10">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row10"/>
+</config>
+<config key="extremerowRecovered11">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row11"/>
+</config>
+<config key="extremerowRecovered12">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row162"/>
+</config>
+<config key="extremerowRecovered13">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row163"/>
+</config>
+<config key="extremerowRecovered14">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row164"/>
+</config>
+<config key="extremerowRecovered15">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row165"/>
+</config>
+<config key="extremerowRecovered16">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row166"/>
+</config>
+<config key="extremerowRecovered17">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row167"/>
+</config>
+<config key="extremerowRecovered18">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row168"/>
+</config>
+<config key="extremerowRecovered19">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row169"/>
+</config>
+<config key="extremerowRecovered20">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row170"/>
+</config>
+<config key="extremerowRecovered21">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row171"/>
+</config>
+<config key="extremerowRecovered22">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row172"/>
+</config>
+<config key="extremerowRecovered23">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row173"/>
+</config>
+<config key="extremerowRecovered24">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row174"/>
+</config>
+<config key="extremerowRecovered25">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row175"/>
+</config>
+<config key="extremerowRecovered26">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row176"/>
+</config>
+<config key="extremerowRecovered27">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row177"/>
+</config>
+<config key="extremerowRecovered28">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row178"/>
+</config>
+<config key="extremerowRecovered29">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row179"/>
+</config>
+<config key="extremerowRecovered30">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row180"/>
+</config>
+<config key="extremerowRecovered31">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row181"/>
+</config>
+<config key="extremerowRecovered32">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row182"/>
+</config>
+<config key="extremerowRecovered33">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row183"/>
+</config>
+<config key="extremerowRecovered34">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row184"/>
+</config>
+<config key="extremerowRecovered35">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row185"/>
+</config>
+<config key="extremerowRecovered36">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row186"/>
+</config>
+<config key="extremerowRecovered37">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row187"/>
+</config>
+<config key="extremerowRecovered38">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row188"/>
+</config>
+<config key="extremerowRecovered39">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row189"/>
+</config>
+<config key="extremerowRecovered40">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row190"/>
+</config>
+<config key="extremerowRecovered41">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row191"/>
+</config>
+<config key="extremerowRecovered42">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row192"/>
+</config>
+<config key="extremerowRecovered43">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row193"/>
+</config>
+<config key="extremerowRecovered44">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row194"/>
+</config>
+</config>
+<config key="extremeRecovered">
+<entry key="array-size" type="xint" value="45"/>
+<entry key="0" type="xdouble" value="396697.0"/>
+<entry key="1" type="xdouble" value="402854.0"/>
+<entry key="2" type="xdouble" value="410118.0"/>
+<entry key="3" type="xdouble" value="416580.0"/>
+<entry key="4" type="xdouble" value="423078.0"/>
+<entry key="5" type="xdouble" value="430195.0"/>
+<entry key="6" type="xdouble" value="437801.0"/>
+<entry key="7" type="xdouble" value="441361.0"/>
+<entry key="8" type="xdouble" value="445782.0"/>
+<entry key="9" type="xdouble" value="452683.0"/>
+<entry key="10" type="xdouble" value="459368.0"/>
+<entry key="11" type="xdouble" value="468143.0"/>
+<entry key="12" type="xdouble" value="807328.0"/>
+<entry key="13" type="xdouble" value="831928.0"/>
+<entry key="14" type="xdouble" value="851537.0"/>
+<entry key="15" type="xdouble" value="875109.0"/>
+<entry key="16" type="xdouble" value="897804.0"/>
+<entry key="17" type="xdouble" value="918875.0"/>
+<entry key="18" type="xdouble" value="940930.0"/>
+<entry key="19" type="xdouble" value="958792.0"/>
+<entry key="20" type="xdouble" value="979250.0"/>
+<entry key="21" type="xdouble" value="1008537.0"/>
+<entry key="22" type="xdouble" value="1033825.0"/>
+<entry key="23" type="xdouble" value="1061246.0"/>
+<entry key="24" type="xdouble" value="1085690.0"/>
+<entry key="25" type="xdouble" value="1105983.0"/>
+<entry key="26" type="xdouble" value="1124771.0"/>
+<entry key="27" type="xdouble" value="1143980.0"/>
+<entry key="28" type="xdouble" value="1164008.0"/>
+<entry key="29" type="xdouble" value="1183093.0"/>
+<entry key="30" type="xdouble" value="1203253.0"/>
+<entry key="31" type="xdouble" value="1217991.0"/>
+<entry key="32" type="xdouble" value="1231297.0"/>
+<entry key="33" type="xdouble" value="1244880.0"/>
+<entry key="34" type="xdouble" value="1258951.0"/>
+<entry key="35" type="xdouble" value="1274140.0"/>
+<entry key="36" type="xdouble" value="1288280.0"/>
+<entry key="37" type="xdouble" value="1299872.0"/>
+<entry key="38" type="xdouble" value="1309578.0"/>
+<entry key="39" type="xdouble" value="1320496.0"/>
+<entry key="40" type="xdouble" value="1329899.0"/>
+<entry key="41" type="xdouble" value="1339326.0"/>
+<entry key="42" type="xdouble" value="1347157.0"/>
+<entry key="43" type="xdouble" value="1354445.0"/>
+<entry key="44" type="xdouble" value="1360898.0"/>
+</config>
+<config key="statsActive">
+<entry key="array-size" type="xint" value="7"/>
+<entry key="0" type="xdouble" value="1009.0"/>
+<entry key="1" type="xdouble" value="1009.0"/>
+<entry key="2" type="xdouble" value="2060.0"/>
+<entry key="3" type="xdouble" value="8029.0"/>
+<entry key="4" type="xdouble" value="40128.0"/>
+<entry key="5" type="xdouble" value="96747.0"/>
+<entry key="6" type="xdouble" value="103424.0"/>
+</config>
+<config key="mildrowActive">
+<config key="mildrowActive0">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row171"/>
+</config>
+<config key="mildrowActive1">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row169"/>
+</config>
+<config key="mildrowActive2">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row172"/>
+</config>
+<config key="mildrowActive3">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row170"/>
+</config>
+</config>
+<config key="mildActive">
+<entry key="array-size" type="xint" value="4"/>
+<entry key="0" type="xdouble" value="97977.0"/>
+<entry key="1" type="xdouble" value="98264.0"/>
+<entry key="2" type="xdouble" value="99361.0"/>
+<entry key="3" type="xdouble" value="103424.0"/>
+</config>
+<config key="extremerowActive"/>
+<config key="extremeActive">
+<entry key="array-size" type="xint" value="0"/>
+</config>
+<config key="statsIncident_Rate">
+<entry key="array-size" type="xint" value="7"/>
+<entry key="0" type="xdouble" value="2370.551274811578"/>
+<entry key="1" type="xdouble" value="2916.943376708"/>
+<entry key="2" type="xdouble" value="3328.809772174776"/>
+<entry key="3" type="xdouble" value="3404.1401059766054"/>
+<entry key="4" type="xdouble" value="3615.0757295658655"/>
+<entry key="5" type="xdouble" value="4009.187788821952"/>
+<entry key="6" type="xdouble" value="7563.5984159412355"/>
+</config>
+<config key="mildrowIncident_Rate">
+<config key="mildrowIncident_Rate0">
+<entry key="array-size" type="xint" value="2"/>
+<entry key="0" type="xstring" value="Row4"/>
+<entry key="1" type="xstring" value="Row3"/>
+</config>
+<config key="mildrowIncident_Rate1">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row5"/>
+</config>
+<config key="mildrowIncident_Rate2">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row6"/>
+</config>
+<config key="mildrowIncident_Rate3">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row7"/>
+</config>
+<config key="mildrowIncident_Rate4">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row8"/>
+</config>
+<config key="mildrowIncident_Rate5">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row9"/>
+</config>
+<config key="mildrowIncident_Rate6">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row10"/>
+</config>
+<config key="mildrowIncident_Rate7">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row11"/>
+</config>
+<config key="mildrowIncident_Rate8">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row12"/>
+</config>
+<config key="mildrowIncident_Rate9">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row13"/>
+</config>
+<config key="mildrowIncident_Rate10">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row14"/>
+</config>
+<config key="mildrowIncident_Rate11">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row15"/>
+</config>
+<config key="mildrowIncident_Rate12">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row156"/>
+</config>
+<config key="mildrowIncident_Rate13">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row157"/>
+</config>
+<config key="mildrowIncident_Rate14">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row158"/>
+</config>
+<config key="mildrowIncident_Rate15">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row159"/>
+</config>
+</config>
+<config key="mildIncident_Rate">
+<entry key="array-size" type="xint" value="16"/>
+<entry key="0" type="xdouble" value="2496.0181010855586"/>
+<entry key="1" type="xdouble" value="2576.9440971428344"/>
+<entry key="2" type="xdouble" value="2594.233464283588"/>
+<entry key="3" type="xdouble" value="2614.526424726692"/>
+<entry key="4" type="xdouble" value="2648.709668075149"/>
+<entry key="5" type="xdouble" value="2688.7183859779866"/>
+<entry key="6" type="xdouble" value="2729.0477722049186"/>
+<entry key="7" type="xdouble" value="2764.3640436318433"/>
+<entry key="8" type="xdouble" value="2795.78419492102"/>
+<entry key="9" type="xdouble" value="2831.838003493361"/>
+<entry key="10" type="xdouble" value="2855.642282085297"/>
+<entry key="11" type="xdouble" value="2888.9062762380177"/>
+<entry key="12" type="xdouble" value="4101.550955105259"/>
+<entry key="13" type="xdouble" value="4190.798294172783"/>
+<entry key="14" type="xdouble" value="4294.94067689449"/>
+<entry key="15" type="xdouble" value="4425.212183557816"/>
+</config>
+<config key="extremerowIncident_Rate">
+<config key="extremerowIncident_Rate0">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row0"/>
+</config>
+<config key="extremerowIncident_Rate1">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row1"/>
+</config>
+<config key="extremerowIncident_Rate2">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row2"/>
+</config>
+<config key="extremerowIncident_Rate3">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row160"/>
+</config>
+<config key="extremerowIncident_Rate4">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row161"/>
+</config>
+<config key="extremerowIncident_Rate5">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row162"/>
+</config>
+<config key="extremerowIncident_Rate6">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row163"/>
+</config>
+<config key="extremerowIncident_Rate7">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row164"/>
+</config>
+<config key="extremerowIncident_Rate8">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row165"/>
+</config>
+<config key="extremerowIncident_Rate9">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row166"/>
+</config>
+<config key="extremerowIncident_Rate10">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row167"/>
+</config>
+<config key="extremerowIncident_Rate11">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row168"/>
+</config>
+<config key="extremerowIncident_Rate12">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row169"/>
+</config>
+<config key="extremerowIncident_Rate13">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row170"/>
+</config>
+<config key="extremerowIncident_Rate14">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row171"/>
+</config>
+<config key="extremerowIncident_Rate15">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row172"/>
+</config>
+<config key="extremerowIncident_Rate16">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row173"/>
+</config>
+<config key="extremerowIncident_Rate17">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row174"/>
+</config>
+<config key="extremerowIncident_Rate18">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row175"/>
+</config>
+<config key="extremerowIncident_Rate19">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row176"/>
+</config>
+<config key="extremerowIncident_Rate20">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row177"/>
+</config>
+<config key="extremerowIncident_Rate21">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row178"/>
+</config>
+<config key="extremerowIncident_Rate22">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row179"/>
+</config>
+<config key="extremerowIncident_Rate23">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row180"/>
+</config>
+<config key="extremerowIncident_Rate24">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row181"/>
+</config>
+<config key="extremerowIncident_Rate25">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row182"/>
+</config>
+<config key="extremerowIncident_Rate26">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row183"/>
+</config>
+<config key="extremerowIncident_Rate27">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row184"/>
+</config>
+<config key="extremerowIncident_Rate28">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row185"/>
+</config>
+<config key="extremerowIncident_Rate29">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row186"/>
+</config>
+<config key="extremerowIncident_Rate30">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row187"/>
+</config>
+<config key="extremerowIncident_Rate31">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row188"/>
+</config>
+<config key="extremerowIncident_Rate32">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row189"/>
+</config>
+<config key="extremerowIncident_Rate33">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row190"/>
+</config>
+<config key="extremerowIncident_Rate34">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row191"/>
+</config>
+<config key="extremerowIncident_Rate35">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row192"/>
+</config>
+<config key="extremerowIncident_Rate36">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row193"/>
+</config>
+<config key="extremerowIncident_Rate37">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row194"/>
+</config>
+</config>
+<config key="extremeIncident_Rate">
+<entry key="array-size" type="xint" value="38"/>
+<entry key="0" type="xdouble" value="2370.551274811578"/>
+<entry key="1" type="xdouble" value="2412.39849110589"/>
+<entry key="2" type="xdouble" value="2458.3235395882684"/>
+<entry key="3" type="xdouble" value="4561.293131359322"/>
+<entry key="4" type="xdouble" value="4687.8822967676315"/>
+<entry key="5" type="xdouble" value="4839.638581145279"/>
+<entry key="6" type="xdouble" value="4971.3156839625535"/>
+<entry key="7" type="xdouble" value="5111.175173516303"/>
+<entry key="8" type="xdouble" value="5241.211523408628"/>
+<entry key="9" type="xdouble" value="5370.029333669394"/>
+<entry key="10" type="xdouble" value="5492.59411161032"/>
+<entry key="11" type="xdouble" value="5600.557791860818"/>
+<entry key="12" type="xdouble" value="5729.621447836724"/>
+<entry key="13" type="xdouble" value="5868.502899001984"/>
+<entry key="14" type="xdouble" value="5998.026179575758"/>
+<entry key="15" type="xdouble" value="6142.57811560542"/>
+<entry key="16" type="xdouble" value="6277.360356694341"/>
+<entry key="17" type="xdouble" value="6386.35552005401"/>
+<entry key="18" type="xdouble" value="6482.7858295812475"/>
+<entry key="19" type="xdouble" value="6589.424080758821"/>
+<entry key="20" type="xdouble" value="6701.444215309112"/>
+<entry key="21" type="xdouble" value="6803.69999939073"/>
+<entry key="22" type="xdouble" value="6909.691569448049"/>
+<entry key="23" type="xdouble" value="7002.492982440951"/>
+<entry key="24" type="xdouble" value="7073.766861942987"/>
+<entry key="25" type="xdouble" value="7141.37977807828"/>
+<entry key="26" type="xdouble" value="7208.084133961971"/>
+<entry key="27" type="xdouble" value="7279.096134332663"/>
+<entry key="28" type="xdouble" value="7335.154301856423"/>
+<entry key="29" type="xdouble" value="7380.614381268865"/>
+<entry key="30" type="xdouble" value="7414.979336667641"/>
+<entry key="31" type="xdouble" value="7449.483248340194"/>
+<entry key="32" type="xdouble" value="7473.661639976906"/>
+<entry key="33" type="xdouble" value="7497.615563786755"/>
+<entry key="34" type="xdouble" value="7518.170403361202"/>
+<entry key="35" type="xdouble" value="7535.438392613682"/>
+<entry key="36" type="xdouble" value="7551.519909067016"/>
+<entry key="37" type="xdouble" value="7563.5984159412355"/>
+</config>
+<config key="statsCase_Fatality_Ratio">
+<entry key="array-size" type="xint" value="7"/>
+<entry key="0" type="xdouble" value="1.37951875258797"/>
+<entry key="1" type="xdouble" value="1.3956297947856586"/>
+<entry key="2" type="xdouble" value="1.5788615817636815"/>
+<entry key="3" type="xdouble" value="1.6693414271099496"/>
+<entry key="4" type="xdouble" value="1.702568415806115"/>
+<entry key="5" type="xdouble" value="1.7105759557344065"/>
+<entry key="6" type="xdouble" value="1.7105759557344065"/>
+</config>
+<config key="mildrowCase_Fatality_Ratio">
+<config key="mildrowCase_Fatality_Ratio0">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row164"/>
+</config>
+<config key="mildrowCase_Fatality_Ratio1">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row165"/>
+</config>
+<config key="mildrowCase_Fatality_Ratio2">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row166"/>
+</config>
+<config key="mildrowCase_Fatality_Ratio3">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row163"/>
+</config>
+<config key="mildrowCase_Fatality_Ratio4">
+<entry key="array-size" type="xint" value="1"/>
+<entry key="0" type="xstring" value="Row167"/>
+</config>
+</config>
+<config key="mildCase_Fatality_Ratio">
+<entry key="array-size" type="xint" value="5"/>
+<entry key="0" type="xdouble" value="1.37951875258797"/>
+<entry key="1" type="xdouble" value="1.380778011969258"/>
+<entry key="2" type="xdouble" value="1.3831856064300514"/>
+<entry key="3" type="xdouble" value="1.38543226626273"/>
+<entry key="4" type="xdouble" value="1.3863765732717728"/>
+</config>
+<config key="extremerowCase_Fatality_Ratio"/>
+<config key="extremeCase_Fatality_Ratio">
+<entry key="array-size" type="xint" value="0"/>
+</config>
+</config>
