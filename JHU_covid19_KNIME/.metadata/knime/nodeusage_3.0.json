@@ -6,9 +6,9 @@
         "nodes": [
             {
                 "id": "org.knime.python2.nodes.source.Python2SourceNodeFactory#Python Source",
-                "nrexecs": 5,
+                "nrexecs": 6,
                 "nrfails": 12,
-                "exectime": 584598,
+                "exectime": 585441,
                 "nrcreated": 2,
                 "successor": "org.knime.js.base.node.viz.pagedTable.PagedTableViewNodeFactory#Table View"
             },
@@ -22,9 +22,9 @@
             },
             {
                 "id": "org.knime.python2.nodes.script2.Python2ScriptNodeFactory2#Python Script",
-                "nrexecs": 15,
+                "nrexecs": 18,
                 "nrfails": 1,
-                "exectime": 18267,
+                "exectime": 22484,
                 "nrcreated": 3,
                 "successor": "org.knime.python2.nodes.script2.Python2ScriptNodeFactory2#Python Script"
             },
@@ -102,9 +102,9 @@
             },
             {
                 "id": "org.knime.js.base.node.viz.pagedTable.PagedTableViewNodeFactory#Table View",
-                "nrexecs": 2,
+                "nrexecs": 3,
                 "nrfails": 0,
-                "exectime": 48,
+                "exectime": 122,
                 "nrcreated": 2,
                 "successor": "n/a"
             },
@@ -114,6 +114,14 @@
                 "nrfails": 0,
                 "exectime": 5,
                 "nrcreated": 0,
+                "successor": "n/a"
+            },
+            {
+                "id": "org.knime.base.node.preproc.filter.column.DataColumnSpecFilterNodeFactory#Column Filter",
+                "nrexecs": 1,
+                "nrfails": 0,
+                "exectime": 3,
+                "nrcreated": 1,
                 "successor": "n/a"
             }
         ],
@@ -126,14 +134,14 @@
             "nrcreated": 0
         }
     },
-    "uptime": 2882740,
-    "workflowsOpened": 2,
+    "uptime": 5684730,
+    "workflowsOpened": 3,
     "remoteWorkflowsOpened": 0,
     "workflowsImported": 0,
     "workflowsExported": 0,
-    "launches": 3,
+    "launches": 4,
     "lastApplicationID": "org.knime.product.KNIME_APPLICATION",
-    "timeSinceLastStart": 59897,
+    "timeSinceLastStart": 14090701,
     "crashes": 0,
     "properlyShutDown": true
 }

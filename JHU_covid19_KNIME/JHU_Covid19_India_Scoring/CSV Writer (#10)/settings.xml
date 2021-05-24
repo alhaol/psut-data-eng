@@ -83,7 +83,7 @@
 </config>
 </config>
 <entry key="customDescription" type="xstring" isnull="true" value=""/>
-<entry key="state" type="xstring" value="EXECUTED"/>
+<entry key="state" type="xstring" value="CONFIGURED"/>
 <entry key="factory" type="xstring" value="org.knime.base.node.io.filehandling.csv.writer.CSVWriter2NodeFactory"/>
 <entry key="node-name" type="xstring" value="CSV Writer"/>
 <entry key="node-bundle-name" type="xstring" value="KNIME Base Nodes"/>
@@ -100,11 +100,11 @@
 <config key="Data Table"/>
 </config>
 <entry key="name" type="xstring" value="CSV Writer"/>
-<entry key="hasContent" type="xboolean" value="true"/>
+<entry key="hasContent" type="xboolean" value="false"/>
 <entry key="isInactive" type="xboolean" value="false"/>
 <config key="ports"/>
 <config key="filestores">
 <entry key="file_store_location" type="xstring" isnull="true" value=""/>
-<entry key="file_store_id" type="xstring" value="dd421658-314c-435e-a742-8487bd6ee4e7"/>
+<entry key="file_store_id" type="xstring" isnull="true" value=""/>
 </config>
 </config>

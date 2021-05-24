@@ -18,7 +18,7 @@
 <entry key="max_nominal_values" type="xint" value="60"/>
 </config>
 <entry key="customDescription" type="xstring" isnull="true" value=""/>
-<entry key="state" type="xstring" value="EXECUTED"/>
+<entry key="state" type="xstring" value="CONFIGURED"/>
 <entry key="factory" type="xstring" value="org.knime.base.node.viz.plotter.line.LinePlotterNodeFactory"/>
 <entry key="node-name" type="xstring" value="Line Plot (local)"/>
 <entry key="node-bundle-name" type="xstring" value="KNIME Base Nodes"/>
@@ -31,11 +31,11 @@
 <entry key="node-feature-version" type="xstring" value="4.3.1.v202101261649"/>
 <config key="factory_settings"/>
 <entry key="name" type="xstring" value="Line Plot (local)"/>
-<entry key="hasContent" type="xboolean" value="true"/>
+<entry key="hasContent" type="xboolean" value="false"/>
 <entry key="isInactive" type="xboolean" value="false"/>
 <config key="ports"/>
 <config key="filestores">
 <entry key="file_store_location" type="xstring" isnull="true" value=""/>
-<entry key="file_store_id" type="xstring" value="36940e70-1ca6-4d3a-8ce1-29337b150188"/>
+<entry key="file_store_id" type="xstring" isnull="true" value=""/>
 </config>
 </config>

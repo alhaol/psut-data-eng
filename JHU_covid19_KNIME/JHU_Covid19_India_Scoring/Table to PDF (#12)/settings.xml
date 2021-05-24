@@ -93,7 +93,7 @@
 <entry key="ImageScaling" type="xstring" value="VIEW_SCALING"/>
 </config>
 <entry key="customDescription" type="xstring" isnull="true" value=""/>
-<entry key="state" type="xstring" value="EXECUTED"/>
+<entry key="state" type="xstring" value="CONFIGURED"/>
 <entry key="factory" type="xstring" value="org.knime.ext.birt.nodes.io.filehandling.pdf.PdfReport2NodeFactory"/>
 <entry key="node-name" type="xstring" value="Table to PDF"/>
 <entry key="node-bundle-name" type="xstring" value="KNIME HTML/PDF Writer Nodes"/>
@@ -110,11 +110,11 @@
 <config key="Port Object"/>
 </config>
 <entry key="name" type="xstring" value="Table to PDF"/>
-<entry key="hasContent" type="xboolean" value="true"/>
+<entry key="hasContent" type="xboolean" value="false"/>
 <entry key="isInactive" type="xboolean" value="false"/>
 <config key="ports"/>
 <config key="filestores">
 <entry key="file_store_location" type="xstring" isnull="true" value=""/>
-<entry key="file_store_id" type="xstring" value="e6e882b3-08b0-4501-9bb2-5225cb5fae44"/>
+<entry key="file_store_id" type="xstring" isnull="true" value=""/>
 </config>
 </config>
