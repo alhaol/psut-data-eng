@@ -319,3 +319,74 @@ java.lang.IllegalArgumentException: Location must be absolute: ..
 	at org.eclipse.equinox.internal.p2.core.ProvisioningEventBus.dispatchEvent(ProvisioningEventBus.java:1)
 	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:234)
 	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:345)
+!SESSION 2021-06-09 17:28:43.602 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_252
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_CA
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.jface 2 0 2021-06-09 17:29:01.776
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2021-06-09 17:29:01.776
+!MESSAGE A conflict occurred for CTRL+F:
+Binding(CTRL+F,
+	ParameterizedCommand(Command(org.eclipse.ui.edit.findReplace,Find and Replace,
+		Find and replace text,
+		Category(org.eclipse.ui.category.edit,Edit,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@13d7d1a8,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+F,
+	ParameterizedCommand(Command(knime.commands.findnode,Find Node...,
+		Finds a Node in the workflow.,
+		Category(knime.command.category,KNIME Workflow Editor commands,Commands available for the workflow editor,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@60035f1e,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2021-06-09 17:29:01.776
+!MESSAGE A conflict occurred for CTRL+G:
+Binding(CTRL+G,
+	ParameterizedCommand(Command(knime.commands.findnextnode,Find Next Node...,
+		Finds the next node in the workflow from the previous search results.,
+		Category(knime.command.category,KNIME Workflow Editor commands,Commands available for the workflow editor,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@5827908c,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+G,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.edit.text.java.search.declarations.in.workspace,Declaration in Workspace,
+		Search for declarations of the selected element in the workspace,
+		Category(org.eclipse.search.ui.category.search,Search,Search command category,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@732ffb6a,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.eclipse.equinox.p2.core 4 0 2021-06-09 17:29:05.803
+!MESSAGE Exception during event notification
+!STACK 0
+java.lang.IllegalArgumentException: Location must be absolute: ..
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.checkValidLocation(AbstractRepositoryManager.java:756)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.contains(AbstractRepositoryManager.java:252)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.addRepository(AbstractRepositoryManager.java:167)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.notify(AbstractRepositoryManager.java:825)
+	at org.eclipse.equinox.internal.p2.core.ProvisioningEventBus.dispatchEvent(ProvisioningEventBus.java:103)
+	at org.eclipse.equinox.internal.p2.core.ProvisioningEventBus.dispatchEvent(ProvisioningEventBus.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:234)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:345)
+
+!ENTRY org.eclipse.equinox.p2.core 4 0 2021-06-09 17:29:05.806
+!MESSAGE Exception during event notification
+!STACK 0
+java.lang.IllegalArgumentException: Location must be absolute: ..
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.checkValidLocation(AbstractRepositoryManager.java:756)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.contains(AbstractRepositoryManager.java:252)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.addRepository(AbstractRepositoryManager.java:167)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.notify(AbstractRepositoryManager.java:825)
+	at org.eclipse.equinox.internal.p2.core.ProvisioningEventBus.dispatchEvent(ProvisioningEventBus.java:103)
+	at org.eclipse.equinox.internal.p2.core.ProvisioningEventBus.dispatchEvent(ProvisioningEventBus.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:234)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:345)

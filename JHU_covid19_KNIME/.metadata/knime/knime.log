@@ -352,3 +352,8 @@ NameError: output_table is not defined.
 2021-05-24 15:31:40,452 : WARN  : Thread-7 :  : PythonService :  :  : PythonService is not initilized
 2021-05-24 15:31:40,457 : WARN  : Thread-7 :  : PythonService :  :  : Failed to start python service.
 2021-05-24 15:32:19,518 : WARN  : Worker-2: Workflow Coach loader :  : MoePreferencePage :  :  : Path to MOE not set in Preferences. Please check!
+2021-06-09 17:29:06,281 : ERROR : main :  : MAEFileUtils :  :  : Schrodinger Knime plugins: Neither SCHRODINGER environment nor preference is set. You can set SCHRODINGER installation location in the Schrodinger Preferences.
+2021-06-09 17:29:06,283 : WARN  : main :  : SchrodFileUtils :  :  : SCHRODINGER is not set properly.
+2021-06-09 17:29:06,284 : WARN  : Thread-7 :  : PythonService :  :  : PythonService is not initilized
+2021-06-09 17:29:06,287 : WARN  : Thread-7 :  : PythonService :  :  : Failed to start python service.
+2021-06-09 17:29:53,588 : WARN  : Worker-2: Workflow Coach loader :  : MoePreferencePage :  :  : Path to MOE not set in Preferences. Please check!
